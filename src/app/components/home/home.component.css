@@ -476,62 +476,6 @@
     margin-top: 3rem;
 }
 
-.skill-unit {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.ring  {
-    background-color: whitesmoke;
-    padding: 1.5rem;
-    border:  1px solid rgba(238, 238, 238, 0.15);
-    border-radius: 0.5rem;
-    box-shadow: 1px 1px 10px rgba(255,255,255,0.55);
-}
-
-.percent-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    z-index: 10;
-}
-
-.percent-logo img {
-    width: var(--skill-logo-size);
-    height: var(--skill-logo-size);
-}
-
-.percentage-txt {
-    font-size: 2rem;
-    margin-top: 0.5rem;
-}
-
-.circular-chart {
-    width: var(--skill-container-size);
-    height: var(--skill-container-size);
-}
-
-/* Track */
-.circle-bg {
-    fill: none;
-    stroke: #eee;
-    stroke-width: 3.8;
-}
-
-/* Stroke */
-.circle { 
-    fill: none;
-    stroke-width: 2.75;
-    stroke-linecap: round;
-    stroke-dasharray: 0, 100;
-    transition: stroke-dasharray 1.5s cubic-bezier(.55,.55,.03,1.25);
-}
-
-
 @media only screen and (max-width: 1024px) and (orientation:portrait) {
     .skills-section {
         height: unset;
@@ -544,25 +488,6 @@
         min-width: unset;
         grid-row-gap: 0.5rem;
         grid-column-gap: 0.5rem;
-    }
-    
-    .ring  {
-        background-color: whitesmoke;
-        padding: 0.85rem;
-    }
-
-    .percent-logo img {
-        width: 2.5rem;
-        height: 2.5rem;
-    }
-
-    .percentage-txt {
-        font-size: 1.5rem;
-    }
-
-    .circular-chart {
-        width: 8rem;
-        height: 8rem;
     }
 }
 
@@ -577,25 +502,6 @@
         grid-template-columns: repeat(5, 1fr);
         grid-row-gap: 1rem;
         min-width: unset;
-    }
-
-    .ring  {
-        background-color: whitesmoke;
-        padding: 0.65rem;
-    }
-
-    .percentage-txt {
-        font-size: 1.2rem;
-    }
-
-    .percent-logo img {
-        width: 2.25rem;
-        height: 2.25rem;
-    }
-
-    .circular-chart {
-        width: 8rem;
-        height: 8rem;
     }
 }
 
@@ -620,26 +526,6 @@
         grid-column-gap: 0.5rem;
         min-width: unset;
     }
-
-    .ring  {
-        background-color: whitesmoke;
-        padding: 0.65rem;
-    }
-
-    .percentage-txt {
-        font-size: 1.2rem;
-    }
-
-    .percent-logo img {
-        width: 2.25rem;
-        height: 2.25rem;
-    }
-
-    .circular-chart {
-        width: 7rem;
-        height: 7rem;
-    }
-
 }
 
 /*-----------------------------------------------------------------------------------------------*/

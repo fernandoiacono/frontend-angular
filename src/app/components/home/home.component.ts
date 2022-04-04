@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ViewChildren, QueryList, ElementRef, Directive } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EducacionModel } from 'src/app/models/Educacion';
 import { ExperienciaLaboralModel } from 'src/app/models/ExperienciaLaboral';
 import { HabilidadModel } from 'src/app/models/Habilidad';
@@ -14,7 +14,7 @@ import { Container } from 'tsparticles';
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit {
   
   id = "tsparticles";
   particlesUrl = "http://localhost:4200/assets/json/partOptions.json";
@@ -26,22 +26,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
   personaProyectos: ProyectoModel[] = [];
   proyectosCss: string[] = ['proy-laautopista-img', 'proy-malvinas-img', 'proy-lab-img'];
   
-  @ViewChild('countup') numerosPorcentaje! : ElementRef;
-
 
   constructor(private _personaService : PersonaService) { }
 
   ngOnInit(): void {
     this.getPersonaById(1);
-	//this.animateCountUp(document.querySelectorAll('.countup'));
-	// document.querySelectorAll('.countup').forEach( elem => {
-	// 	console.log('hola')
-	// 	this.animateCountUp(elem);
-	// });
-  }
-
-  ngAfterViewInit(): void {
-	console.log(this.numerosPorcentaje.nativeElement);
   }
   
   particlesLoaded(container: Container): void {
@@ -75,28 +64,4 @@ export class HomeComponent implements OnInit, AfterViewInit {
 	return 0;
   }
 
-  // Contador Numeros
-  animationDuration: number = 1500;
-  frameDuration:number = 1000 / 60;
-  totalFrames: any = Math.round( this.animationDuration / this.frameDuration );
-
-  easeOutQuad(t: number) {
-    return t * ( 2 - t );
-  }
-
-  animateCountUp(el: any) {
-	let frame = 0;
-    const countTo = parseInt( el.innerText, 10 );
-    const counter = setInterval( () => {
-      frame++;
-      const progress = this.easeOutQuad( frame / this.totalFrames );
-      const currentCount = Math.round( countTo * progress );
-      if ( parseInt( el.innerText, 10 ) !== currentCount ) {
-        el.innerText = currentCount;
-      }
-      if ( frame === this.totalFrames ) {
-        clearInterval( counter );
-      }
-    }, this.frameDuration );
-  };
 }
