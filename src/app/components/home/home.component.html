@@ -9,24 +9,24 @@
             <div class="intro-content-wrapper">
                 <div class="intro-content-div div-left">
                     <div class="photo-placeholder">
-                        <img [src]="'/assets/img/' + this.persona.url_foto" alt="Foto del usuario">
+                        <img [src]="fotoUrl" alt="Foto del usuario">
                     </div>
                 </div>
                 <div class="intro-content-div div-right">
                     <div class="white-blur"></div>
                     <div class="photo-placeholder-mobile">
-                        <img [src]="'/assets/img/' + this.persona.url_foto" alt="Foto del usuario">
+                        <img [src]="fotoUrl" alt="Foto del usuario">
                     </div>
                     <h1>
                         {{persona.nombre}} {{persona.apellido}}
                         <div class="edit-btn-intro-container">
-                            <app-edit-btn *ngIf="userLoggedIn"></app-edit-btn>
+                            <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Persona','Edit', persona)"></app-edit-btn>
                         </div>
                     </h1>
                     <h2>
                         {{persona.descripcion}}
                         <div class="edit-btn-intro-container">
-                            <app-edit-btn *ngIf="userLoggedIn"></app-edit-btn>
+                            <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Persona','Edit', persona)"></app-edit-btn>
                         </div>
                     </h2>
                     <div class="p-container">
@@ -34,7 +34,7 @@
                             {{persona.sobre_mi}}
                         </p>
                         <div class="edit-btn-intro-container">
-                            <app-edit-btn *ngIf="userLoggedIn"></app-edit-btn>
+                            <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Persona','Edit', persona)"></app-edit-btn>
                         </div>
                     </div>
                 </div>
@@ -74,13 +74,13 @@
         </div>
         <div class="skill-unit-container" id="skillUnitContainer">
             <!-- SKILS -->
-            <app-habilidad-item *ngFor="let habilidad of personaHabilidades" [habilidad]="habilidad"></app-habilidad-item>
+            <app-habilidad-item *ngFor="let habilidad of personaHabilidades" [habilidad]="habilidad" [userLoggedIn]="userLoggedIn"></app-habilidad-item>
         </div>
     </section>
     
     <section class="educacion-section" id="educacionSection">
         <div class="add-btn-container">
-            <app-add-btn *ngIf="userLoggedIn"></app-add-btn>
+            <app-add-btn *ngIf="userLoggedIn" (click)="showModal('Educacion','add', persona.educacion)"></app-add-btn>
         </div>
         <div class="section-title-grp">
             <h2>Educación</h2>
@@ -89,8 +89,8 @@
         <ul>
             <li *ngFor="let educacion of personaEducacion">
                 <div class="edit-delete-btn-grp">
-                    <app-edit-btn *ngIf="userLoggedIn"></app-edit-btn>
-                    <app-delete-btn *ngIf="userLoggedIn"></app-delete-btn>
+                    <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Educacion','edit', educacion)"></app-edit-btn>
+                    <app-delete-btn *ngIf="userLoggedIn" (click)="deleteItem(this.educacion.id!, 'educacion')"></app-delete-btn>
                 </div>
                 <h4>{{ educacion.nivel }}</h4>
                 <p>{{ educacion.establecimiento }}</p>
@@ -120,7 +120,7 @@
                     <div class="proyectos-txt-container">
                         <h3>{{ proyecto.nombre }}</h3>
                         <p>{{ proyecto.descripcion }}</p>
-                    </div>                    
+                    </div>
                 </a>
             </li>
         </ul>
@@ -128,3 +128,7 @@
 </main>
 <!-- FOOTER -->
 <app-footer [nombre]="persona.nombre + ' ' + persona.apellido"></app-footer>
+
+<!-- <app-add-edit-persona [userLoggedIn]='userLoggedIn' [showPersonaModal]="showPersonaModal" [showBody]="showBody" [persona]="persona"></app-add-edit-persona> -->
+<app-add-edit-persona [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-persona>
+<app-add-edit-educacion [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-educacion>

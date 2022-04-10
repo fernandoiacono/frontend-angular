@@ -16,6 +16,8 @@ import { HabilidadItemComponent } from './components/subcomponents/habilidad-ite
 import { AddBtnComponent } from './components/subcomponents/add-btn/add-btn.component';
 import { EditBtnComponent } from './components/subcomponents/edit-btn/edit-btn.component';
 import { DeleteBtnComponent } from './components/subcomponents/delete-btn/delete-btn.component';
+import { AddEditPersonaComponent } from './components/modals/add-edit-persona/add-edit-persona.component';
+import { AddEditEducacionComponent } from './components/modals/add-edit-educacion/add-edit-educacion.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { DeleteBtnComponent } from './components/subcomponents/delete-btn/delete
     HabilidadItemComponent,
     AddBtnComponent,
     EditBtnComponent,
-    DeleteBtnComponent
+    DeleteBtnComponent,
+    AddEditPersonaComponent,
+    AddEditEducacionComponent
   ],
   imports: [
     BrowserModule,

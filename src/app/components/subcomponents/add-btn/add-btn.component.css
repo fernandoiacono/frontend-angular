@@ -21,6 +21,7 @@
     background-color: var(--edit-btn);
     border-radius: 50%;
     transition: background-color 0.25s ease-in-out;
+    cursor: pointer;
 }
 
 .add-btn:hover {

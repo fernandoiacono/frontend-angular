@@ -9,10 +9,11 @@ import { HabilidadModel } from 'src/app/models/Habilidad';
 export class HabilidadItemComponent implements OnInit, AfterViewInit {
 
   @Input() habilidad: HabilidadModel = new HabilidadModel;
+  @Input() userLoggedIn: boolean = false;
+  
   @ViewChild ('countup') numeroPorcentaje: any;
   @ViewChild ('circle') barraPorcentaje: any;
 
-  userLoggedIn: boolean = false;
 
   constructor() { }
 

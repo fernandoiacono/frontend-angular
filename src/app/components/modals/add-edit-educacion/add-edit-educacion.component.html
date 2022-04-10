@@ -1,0 +1,38 @@
+<div class="modal-contenedor" *ngIf="userLoggedIn && showEducacionModal">
+    <div [ngClass]="!showBody ? 'modal-cuerpo modal-cuerpo-ocultar' : 'modal-cuerpo'">
+        <div class="cerrar-modal-btn" (click)="closeModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 7.21875 5.78125 L 5.78125 7.21875 L 14.5625 16 L 5.78125 24.78125 L 7.21875 26.21875 L 16 17.4375 L 24.78125 26.21875 L 26.21875 24.78125 L 17.4375 16 L 26.21875 7.21875 L 24.78125 5.78125 L 16 14.5625 Z"/></svg>
+        </div>
+        <div>
+            <h2 class="modal-titulo">{{ action }} Educación</h2>
+            <div class="modal-subrayado"></div>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="doble-input-error-grp">
+                <div class="doble-input-grp">
+                    <label for="nivel" class="form-label">
+                        <input type="text" id="nivel" placeholder="Nivel" formControlName="nivel">
+                    </label>
+                    <span class="label-spacer"></span>
+                    <label for="establecimiento" class="form-label">
+                        <input type="text" id="establecimiento" placeholder="Establecimiento" formControlName="establecimiento">
+                    </label>
+                </div>
+                <div class="error-grp">
+                    <div class="form-error-en-grp" #errorNivel></div>
+                    <div class="form-error-en-grp" #errorEstablecimiento></div>
+                </div>
+            </div>
+
+            <label for="titulo" class="form-label">
+                <input type="text" id="titulo" placeholder="Título" formControlName="titulo">
+            </label>
+            <div class="form-error" #errorTituloEducacion></div>
+            <button class="modal-submit-btn">{{ action }}</button>
+        </form>
+        <div class="loading-div" *ngIf="loadingState">
+            <div class="loading-white-bg"></div>
+            <div class="spinner"></div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@
     background-color: var(--edit-btn);
     border-radius: 50%;
     transition: background-color 0.25s ease-in-out;
+    cursor: pointer;
 }
 
 .edit-btn-small, .delete-btn-small {
@@ -22,6 +23,7 @@
     background-color: var(--edit-btn);
     border-radius: 50%;
     transition: background-color 0.20s ease-in-out;
+    cursor: pointer;
 }
 
 .edit-btn-small:hover, .delete-btn-small:hover, .edit-btn:hover, .delete-btn:hover {

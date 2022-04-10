@@ -533,12 +533,14 @@
 /*-----------------------------------------------------------------------------------------------*/
 
 .educacion-section {
-    height: 65vh;
+    min-height: 65vh;
+    height: unset;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     position: relative;
+    padding: 5vh 0;
 }
 
 .educacion-section ul {
@@ -698,7 +700,8 @@
 
 .proyectos-ul li p {
     text-align: center;
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
 }
 
 @media screen and (max-width: 1024px) and (orientation: portrait) {

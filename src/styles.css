@@ -7,15 +7,17 @@
     --dark-grey: #212529;
     --edit-btn: #02a102;
     --edit-btn-hover: #007900;
+    --input-font-size: clamp(0.75rem, 0.95rem, 1.05rem);
+    --error-font-size: clamp(0.65rem, 0.85rem, 1rem);
 }
 
-* {
+*, *::before, *::after {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    outline: none;
     user-select: none;
     -webkit-user-select: none;
-    outline: none;
 }
 
 body {
