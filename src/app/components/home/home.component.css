@@ -378,7 +378,7 @@
     justify-content: center;
     flex-direction: column;
     background-color: #eee;
-    width: 60%;
+    width: 90%;
     text-align: center;
     border:  1px solid rgba(238, 238, 238, 0.15);
     border-radius: 0.5rem;
@@ -560,11 +560,12 @@
     justify-content: center;
     flex-direction: column;
     background-color: #eee;
-    width: 60%;
+    width: 90%;
     text-align: center;
     border:  1px solid rgba(238, 238, 238, 0.15);
     border-radius: 0.5rem;
     box-shadow: 5px 5px 15px rgba(255,255,255,0.55);
+    position: relative;
 }
 
 @media only screen and (max-width: 1024px) and (orientation: portrait) {
@@ -664,22 +665,40 @@
     flex-direction: column;
 }
 
+.proyectos-img-container {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.proyectos-txt-container {
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.proyectos-img-container img {
+    max-width: 100%;
+    max-height: 95%;
+    /* width: 100%; */
+    /* height: 100%; */
+}
+
 .proyectos-ul li h3 {
     margin-top: 0.5rem;
     font-size: 1.35rem;
+    text-align: center;
 } 
 
 .proyectos-ul li p {
     text-align: center;
     margin-top: 0.5rem;
-}
-
-.proy-malvinas-img {
-    height: 120px;
-}
-
-.proy-laautopista-img {
-    width: 14vw;
 }
 
 @media screen and (max-width: 1024px) and (orientation: portrait) {
@@ -744,6 +763,10 @@
     .proyectos-ul {
         width: 98%;
     }
+    
+    .proyectos-img-container img {
+        min-width: 12vh;
+    }
 }
 
 @media screen and (max-width: 640px) and (orientation: portrait) {
@@ -793,5 +816,84 @@
 
     .proy-lab-img {
         height: 70px;
+    }
+}
+
+/*-----------------------------------------------------------------------------------------------*/
+/* ADD-DELETE-EDIT BTNS
+/*-----------------------------------------------------------------------------------------------*/
+
+.add-btn-container {
+    width: 100%;
+    padding: 2rem 4rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0;
+}
+
+.edit-btn-intro-container {
+    position: absolute;
+    top: 0;
+    right: -4.25rem;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.edit-delete-btn-grp {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
+.edit-delete-btn-grp-small {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem 1vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+@media screen and (max-width: 1200px) and (orientation: landscape) {
+    .edit-btn-intro-container {
+        right: 0;
+        padding-right: 1vw;
+    }
+}
+
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+    .edit-btn-intro-container {
+        right: 0;
+        padding-right: 1vw;
+    }
+
+    .edit-delete-btn-grp {
+        padding: 0 0.5rem;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .edit-delete-btn-grp-small {
+        padding: 0.5rem 0.25rem;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .edit-btn-intro-container {
+        right: 0;
+        padding-right: 1vw;
     }
 }

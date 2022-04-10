@@ -57,6 +57,18 @@
     transition: stroke-dasharray 1.5s cubic-bezier(.55,.55,.03,1.25);
 }
 
+/* Edit Button */
+.edit-delete-btn-grp-small {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem 1vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+}
+
 
 @media only screen and (max-width: 1024px) and (orientation:portrait) {
     
@@ -77,6 +89,11 @@
     .circular-chart {
         width: 8rem;
         height: 8rem;
+    }
+
+    .edit-delete-btn-grp-small {
+        padding: 0.5rem 0.25rem;
+        flex-direction: column;
     }
 }
 

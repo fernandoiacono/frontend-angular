@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { map } from 'rxjs/operators'
 import { Observable } from 'rxjs';
 import { PersonaModel } from '../models/Persona';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { PersonaModel } from '../models/Persona';
 
 export class PersonaService {
 
-  private baseUrl : string = 'http://localhost:8080/api';
+  private baseUrl : string = environment.baseApiUrl; //'http://localhost:8080/api';
   
   constructor(private _httpClient: HttpClient)  { }
 

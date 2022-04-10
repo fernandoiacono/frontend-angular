@@ -1,0 +1,59 @@
+/*-----------------------------------------------------------------------------------------------*/
+/* ADD BUTTON
+/*-----------------------------------------------------------------------------------------------*/
+
+.add-btn-container {
+    width: 100%;
+    padding: 2rem 4rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    /* position: absolute; */
+    top: 0;
+}
+
+.add-btn {
+    width: 2.5vw;
+    height: 2.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--edit-btn);
+    border-radius: 50%;
+    transition: background-color 0.25s ease-in-out;
+}
+
+.add-btn:hover {
+    background-color: var(--edit-btn-hover);
+}
+
+.add-btn svg {
+    width: 35%;
+    fill: #FFF;
+}
+
+@media screen and (max-width: 1200px) and (orientation: landscape) {
+    .add-btn {
+        width: 3.5vw;
+        height: 3.5vw;
+    }
+}
+
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+    .add-btn {
+        width: 6vw;
+        height: 6vw;
+    }
+
+    .add-btn-container {
+        padding: 1rem 1rem;
+    }
+}
+
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .add-btn {
+        width: 4.5vw;
+        height: 4.5vw;
+        padding: 0rem;
+    }
+}

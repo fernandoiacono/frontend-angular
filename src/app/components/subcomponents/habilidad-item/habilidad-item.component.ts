@@ -12,6 +12,8 @@ export class HabilidadItemComponent implements OnInit, AfterViewInit {
   @ViewChild ('countup') numeroPorcentaje: any;
   @ViewChild ('circle') barraPorcentaje: any;
 
+  userLoggedIn: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {

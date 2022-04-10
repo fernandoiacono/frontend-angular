@@ -1,0 +1,102 @@
+/*-----------------------------------------------------------------------------------------------*/
+/* DELETE BUTTON
+/*-----------------------------------------------------------------------------------------------*/
+
+.edit-btn, .delete-btn {
+    width: 2.5vw;
+    height: 2.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--edit-btn);
+    border-radius: 50%;
+    transition: background-color 0.25s ease-in-out;
+}
+
+.edit-btn-small, .delete-btn-small {
+    width: 1.5vw;
+    height: 1.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--edit-btn);
+    border-radius: 50%;
+    transition: background-color 0.20s ease-in-out;
+}
+
+.edit-btn-small:hover, .delete-btn-small:hover, .edit-btn:hover, .delete-btn:hover {
+    background-color: var(--edit-btn-hover);
+}
+
+.edit-btn {
+    margin-right: 0.5rem;
+}
+
+.edit-btn-small {
+    margin-bottom: 0.15rem;
+}
+
+.edit-btn svg, .delete-btn svg {
+    width: 35%;
+    fill: #FFF;
+}
+
+.edit-btn-small svg,.delete-btn-small svg {
+    fill: #fff;
+    width: 42%;
+    height: 42%;
+}
+
+@media screen and (max-width: 1200px) and (orientation: landscape) {
+
+    .edit-btn, .delete-btn {
+        width: 3.5vw;
+        height: 3.5vw;
+    }
+
+    .edit-btn-small, .delete-btn-small {
+        width: 2.5vw;
+        height: 2.5vw;
+    }
+}
+
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+    .edit-btn-intro-container {
+        right: 0;
+        padding-right: 1vw;
+    }
+
+    .edit-delete-btn-grp {
+        padding: 0 0.5rem;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .edit-btn, .delete-btn {
+        width: 6vw;
+        height: 6vw;
+    }
+
+    .edit-btn {
+        margin-bottom: 0.15rem;
+        margin-right: 0;
+    }
+
+    .edit-btn-small, .delete-btn-small {
+        width: 4vw;
+        height: 4vw;
+    }
+}
+
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .edit-btn-intro-container {
+        right: 0;
+        padding-right: 1vw;
+    }
+
+    .edit-btn, .delete-btn {
+        width: 4.5vw;
+        height: 4.5vw;
+        padding: 0rem;
+    }
+}

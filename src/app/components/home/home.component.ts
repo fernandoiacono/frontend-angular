@@ -4,6 +4,7 @@ import { ExperienciaLaboralModel } from 'src/app/models/ExperienciaLaboral';
 import { HabilidadModel } from 'src/app/models/Habilidad';
 import { PersonaModel } from 'src/app/models/Persona';
 import { ProyectoModel } from 'src/app/models/Proyecto';
+import { AuthService } from 'src/app/services/auth.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { Main } from 'tsparticles';
 import { Container } from 'tsparticles';
@@ -24,13 +25,14 @@ export class HomeComponent implements OnInit {
   personaExperienciaLaboral: ExperienciaLaboralModel[] = [];
   personaHabilidades : HabilidadModel[] = [];
   personaProyectos: ProyectoModel[] = [];
-  proyectosCss: string[] = ['proy-laautopista-img', 'proy-malvinas-img', 'proy-lab-img'];
   
+  userLoggedIn: boolean = false;
 
-  constructor(private _personaService : PersonaService) { }
+  constructor(private _personaService : PersonaService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getPersonaById(1);
+    this.userLoggedIn = this.checkAuthentication();
   }
   
   particlesLoaded(container: Container): void {
@@ -44,10 +46,10 @@ export class HomeComponent implements OnInit {
 	getPersonaById(id: number) {
 		this._personaService.getPersonaById(id).subscribe(data => {
 			this.persona = data;
-      		this.personaEducacion = this.persona.educacion;
-      		this.personaExperienciaLaboral = this.persona.experiencia_laboral.sort(this.sortArray);
-      		this.personaHabilidades = this.persona.habilidades.sort(this.sortArray);
-      		this.personaProyectos = this.persona.proyectos.sort(this.sortArray);
+      this.personaEducacion = this.persona.educacion;
+      this.personaExperienciaLaboral = this.persona.experiencia_laboral.sort(this.sortArray);
+      this.personaHabilidades = this.persona.habilidades.sort(this.sortArray);
+      this.personaProyectos = this.persona.proyectos.sort(this.sortArray);
 		});
 	}
 
@@ -62,6 +64,13 @@ export class HomeComponent implements OnInit {
     }
     
 	return 0;
+  }
+
+  checkAuthentication() : boolean{
+    if(this.authService.logIn)
+      return true;
+    else
+      return false;
   }
 
 }
