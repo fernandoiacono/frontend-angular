@@ -34,7 +34,10 @@
             </label>
             <div class="form-error" #errorSobreMi></div>
             <button class="modal-submit-btn">Modificar</button>
-            <input type="hidden" id="hidPersona">
         </form>
+        <div class="loading-div" *ngIf="loadingState">
+            <div class="loading-white-bg"></div>
+            <div class="spinner"></div>
+        </div>
     </div>
 </div>

@@ -10,7 +10,7 @@ export class PersonaModel {
     domicilio: string = '';
     fecha_nac: string = '';
     telefono: string = '';
-    email: string = '';
+    correo: string = '';
     descripcion: string = '';
     sobre_mi: string = '';
     url_foto: string = '';

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { PersonaModel } from 'src/app/models/Persona';
 import { ModalService } from 'src/app/services/modal.service';
 import { PersonaService } from 'src/app/services/persona.service';
@@ -15,10 +16,11 @@ export class AddEditPersonaComponent implements OnInit {
     @Input() persona: PersonaModel = new PersonaModel();
     showPersonaModal: boolean = false;
     showBody: boolean = false;
+    loadingState: boolean = false;
    
     form: FormGroup;
 
-    constructor(private modalService: ModalService, private personaService: PersonaService, private fb: FormBuilder) {
+    constructor(private modalService: ModalService, private personaService: PersonaService, private fb: FormBuilder, private route: ActivatedRoute) {
         this.form = this.fb.group({
 			nombre: ['', Validators.required],
 			apellido: ['', Validators.required],
@@ -30,7 +32,7 @@ export class AddEditPersonaComponent implements OnInit {
     ngOnInit(): void {
         this.modalService.$modalPersona.subscribe(value => {
             if (value == true) {
-                this.form.patchValue({ 
+                this.form.patchValue({
                     nombre: this.persona.nombre,
                     apellido: this.persona.apellido,
                     descripcion: this.persona.descripcion,
@@ -51,7 +53,9 @@ export class AddEditPersonaComponent implements OnInit {
     }
 
     onSubmit() :void {
-		const nombre = this.form.value.nombre;
+		this.loadingState = true;
+        
+        const nombre = this.form.value.nombre;
 		const apellido = this.form.value.apellido;
         const descripcion = this.form.value.descripcion;
         const sobreMi = this.form.value.sobre_mi;
@@ -61,18 +65,20 @@ export class AddEditPersonaComponent implements OnInit {
         this.persona.descripcion = descripcion;
         this.persona.sobre_mi = sobreMi;
 
-        this.personaService.updatePersona(1, this.persona).subscribe(data => {
-            console.log(data);
-            // if(data.token !== null && data.token !== undefined && data.token !== '') {
-            //     localStorage.setItem('token', data.token);
-            //     this.router.navigate(['/home']);
-            // } else {
-            //     alert('Ocurrio un error');
-            // }
+        this.personaService.updatePersona(1, this.persona).subscribe({
+            next: data => {
+                this.closeModal();
+            },
+            error: e => {
+                console.log(e);
+            }
         });
     }
 
     closeModal(): void {
         this.modalService.$modalPersona.emit(false);
+        setTimeout (()=>{
+			this.loadingState = false;
+		}, 1500);
     }
 }

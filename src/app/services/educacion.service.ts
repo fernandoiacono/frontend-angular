@@ -66,8 +66,6 @@ export class EducacionService {
             return res;
         }
 
-        console.log(personaId, id);
-
         const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`).set('Content-Type', 'application/json');
         return this._httpClient.delete<GenericResponseModel>(`${this.baseUrl}/persona/${personaId}/educacion/${id}`, {headers : headers});
     }

@@ -42,8 +42,7 @@ export class HomeComponent implements OnInit {
 	ngOnInit(): void {
 		this.getPersonaById(1);
 		this.userLoggedIn = this.checkAuthentication();
-
-		console.log(this.persona.educacion.find(elem => elem.id === 2));
+		//console.log(this.persona.educacion.find(elem => elem.id === 2));
 	}
 
 	particlesLoaded(container: Container): void {
@@ -92,6 +91,10 @@ export class HomeComponent implements OnInit {
 				this.action = action;
 				if(action === 'edit')
 					this.modalService.$modalEducacionData.emit(obj);
+				else {
+					const ed: EducacionModel = new EducacionModel();
+					this.modalService.$modalEducacionData.emit(ed);
+				}
 				this.modalService.$modalEducacion.emit(true);
 				this.modalService.$modalEducacionAction.emit(action)
 				break;
@@ -105,11 +108,9 @@ export class HomeComponent implements OnInit {
 				this.educacionService.deleteEducacion(this.persona.id!,id).subscribe({
 					next: res => {
 						if(res.code == 1) {
-							// let educacionToFind: EducacionModel = 
-							//this.persona.educacion.find(elem => elem.id === id);
-							//this.persona.educacion.splice(,1)
+							let index = this.persona.educacion.indexOf(this.persona.educacion.find(elem => elem.id === id)!);
+							this.persona.educacion.splice(index,1)
 							alert(res.msg);
-
 						}
 					},
 					error: e => {

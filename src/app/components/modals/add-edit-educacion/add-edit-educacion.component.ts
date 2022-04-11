@@ -97,7 +97,7 @@ export class AddEditEducacionComponent implements OnInit {
 			this.educacionService.createEducacion(this.persona.id!, this.educacion).subscribe({
 				next: (data) => {
 					this.closeModal();
-					this.persona.educacion.push(this.educacion);
+					this.persona.educacion.push(data);
 				},
 				error: (e) => {
 					console.log(e)

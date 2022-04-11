@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
     this.authService.doLogOut();
     //this.router.navigate(['/login']);
     //this.ngOnInit();
-    //location.reload();
+    location.reload();
   }
 
   smoothScroll(targetElement: string, duration: number) {

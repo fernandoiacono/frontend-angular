@@ -50,7 +50,10 @@ export class PersonaService {
             return res;
         }
 
-        const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`).set('Content-Type', 'application/json');
+        console.log(persona)
+        console.log(`${this.baseUrl}/persona/${id}`)
+
+        const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);//.set('Content-Type', 'application/json charset=utf-8');
         return this._httpClient.put<PersonaModel>(`${this.baseUrl}/persona/${id}`, persona, {headers : headers});
     }
 }
