@@ -14,26 +14,6 @@ export class PersonaService {
 
     constructor(private _httpClient: HttpClient) { }
 
-    // getPersonaById(id: number) {
-
-    //   const token : string | null = localStorage.getItem('ACCESS_TOKEN');
-
-    //   let res : any = {
-    //       Code: -1,
-    //       Msg: 'No auth token'
-    //   };
-
-    //   if(!token) {
-    //       return res;
-    //   }
-
-    //   const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-
-    //   return this._httpClient.get<any>(`${this.baseUrl}/persona/${id}`, { headers: headers }).pipe(map((res: any) => {
-    //       return res;
-    //   }));
-    // }
-
     getPersonaById(id: number): Observable<PersonaModel> {
         return this._httpClient.get<PersonaModel>(`${this.baseUrl}/persona/${id}`);
     }
@@ -49,9 +29,6 @@ export class PersonaService {
         if(!token) {
             return res;
         }
-
-        console.log(persona)
-        console.log(`${this.baseUrl}/persona/${id}`)
 
         const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);//.set('Content-Type', 'application/json charset=utf-8');
         return this._httpClient.put<PersonaModel>(`${this.baseUrl}/persona/${id}`, persona, {headers : headers});

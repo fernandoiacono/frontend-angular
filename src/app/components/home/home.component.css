@@ -18,7 +18,6 @@
 
 .ts-particles  {
     width: 100%;
-    
 }
 
 #tsparticles canvas {
@@ -54,18 +53,17 @@
 }
 
 .div-right h1 {
-    /* font-size: 5rem; */
     font-size: 5vw;
     font-weight: 700;
     z-index: 1;
     word-spacing: -0.8rem;
     position: relative;
     z-index: 10;
-    /* margin-bottom: 0.5rem; */
+    display: flex;
+    align-items: center;
 }
 
 .div-right h2 {
-    /* font-size: 2.5rem; */
     font-size: 2.5vw;
     font-weight: 700;
     z-index: 1;
@@ -76,15 +74,6 @@
     margin-bottom: 2vh;
 }
 
-/*.div-right h3 {
-    /* font-size: 2.5rem; */
-    /*font-size: 2.5vw;
-    z-index: 1;
-    line-height: 2rem;
-    position: relative;
-    z-index: 10;
-}*/
-
 .p-container {
     z-index: 10;
     position: relative;
@@ -93,7 +82,6 @@
 
 .div-right p {
     font-size: 0.85vw;
-    /* margin-top: 1.5rem; */
     line-height: 1.5rem;
     word-spacing: unset;
     letter-spacing: 0.1rem;
@@ -155,13 +143,6 @@
         line-height: unset;
         width: 100%;
     }
-    
-    /* .div-right h3 {
-        font-size: 2.5rem;
-        line-height: unset;
-        text-align: center;
-        width: 100%;
-    } */
 
     .div-right p {
         width: 95%;
@@ -252,11 +233,6 @@
         width: 80%;
         text-align: center;
     }
-    
-    /* .div-right h3 {
-        font-size: 2rem;
-        line-height: unset;
-    } */
 
     .p-container {
         z-index: 10;
@@ -330,12 +306,6 @@
         width: 100%;
         text-align: center;
     }
-    
-    /* .div-right h3 {
-        font-size: 1.85rem;
-        line-height: unset;
-        text-align: center;
-    } */
 
     .div-right p {
         line-height: unset;
@@ -384,6 +354,10 @@
     border-radius: 0.5rem;
     box-shadow: 5px 5px 15px rgba(255,255,255,0.55);
     position: relative;
+}
+
+.experiencia-laboral-descripcion {
+    width: 65%;
 }
 
 .experiencia-laboral-year {
@@ -448,7 +422,6 @@
         width: 100%;
     }
 }
-
 
 /*-----------------------------------------------------------------------------------------------*/
 /* SKILLS
@@ -638,6 +611,7 @@
 .proyectos-ul {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-row-gap: 3vh;
     align-content: center;
     justify-items: center;
     width: 80%;
@@ -693,8 +667,6 @@
 .proyectos-img-container img {
     max-width: 100%;
     max-height: 95%;
-    /* width: 100%; */
-    /* height: 100%; */
 }
 
 .proyectos-ul li h3 {
@@ -833,7 +805,7 @@
 
 .add-btn-container {
     width: 100%;
-    padding: 2rem 4rem;
+    /* padding: 2vw 4vw; */
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
@@ -844,7 +816,7 @@
 .edit-btn-intro-container {
     position: absolute;
     top: 0;
-    right: -4.25rem;
+    right: -4.25vw;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -857,7 +829,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0 1.5rem;
+    padding: 0 1.5vw;
     display: flex;
     align-items: center;
     z-index: 1000;

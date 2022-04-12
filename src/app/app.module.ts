@@ -18,6 +18,9 @@ import { EditBtnComponent } from './components/subcomponents/edit-btn/edit-btn.c
 import { DeleteBtnComponent } from './components/subcomponents/delete-btn/delete-btn.component';
 import { AddEditPersonaComponent } from './components/modals/add-edit-persona/add-edit-persona.component';
 import { AddEditEducacionComponent } from './components/modals/add-edit-educacion/add-edit-educacion.component';
+import { AddEditExplaboralComponent } from './components/modals/add-edit-explaboral/add-edit-explaboral.component';
+import { AddEditHabilidadComponent } from './components/modals/add-edit-habilidad/add-edit-habilidad.component';
+import { AddEditProyectoComponent } from './components/modals/add-edit-proyecto/add-edit-proyecto.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { AddEditEducacionComponent } from './components/modals/add-edit-educacio
     EditBtnComponent,
     DeleteBtnComponent,
     AddEditPersonaComponent,
-    AddEditEducacionComponent
+    AddEditEducacionComponent,
+    AddEditExplaboralComponent,
+    AddEditHabilidadComponent,
+    AddEditProyectoComponent
   ],
   imports: [
     BrowserModule,

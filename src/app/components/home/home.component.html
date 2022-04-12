@@ -43,7 +43,7 @@
     
     <section class="exp-section" id="expSection">
         <div class="add-btn-container">
-            <app-add-btn *ngIf="userLoggedIn"></app-add-btn>
+            <app-add-btn *ngIf="userLoggedIn" (click)="showModal('ExpLaboral','add')"></app-add-btn>
         </div>
         <div class="section-title-grp">
             <h2>Experiencia Laboral</h2>
@@ -52,12 +52,12 @@
         <ul>
             <li *ngFor="let experienciaLaboral of personaExperienciaLaboral">
                 <div class="edit-delete-btn-grp">
-                    <app-edit-btn *ngIf="userLoggedIn"></app-edit-btn>
-                    <app-delete-btn *ngIf="userLoggedIn"></app-delete-btn>
+                    <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('ExpLaboral','edit', experienciaLaboral)"></app-edit-btn>
+                    <app-delete-btn *ngIf="userLoggedIn" (click)="deleteItem(experienciaLaboral.id!, 'ExpLaboral')"></app-delete-btn>
                 </div>
                 <h4>{{ experienciaLaboral.nombre_empresa }}</h4>
-                <p *ngIf="!experienciaLaboral.es_trabajo_actual" class="experiencia-laboral-year">{{experienciaLaboral.fecha_inicio.split('-')[1]}}-{{ experienciaLaboral.fecha_inicio.split('-')[0] }} al {{ experienciaLaboral.fecha_fin.split('-')[1]}}-{{ experienciaLaboral.fecha_fin.split('-')[0] }}</p>
-                <p *ngIf="experienciaLaboral.es_trabajo_actual" class="experiencia-laboral-year">{{experienciaLaboral.fecha_inicio.split('-')[1]}}-{{ experienciaLaboral.fecha_inicio.split('-')[0] }} - Actualidad</p>
+                <p *ngIf="!experienciaLaboral.es_trabajo_actual" class="experiencia-laboral-year">{{ experienciaLaboral.fecha_inicio | date:"MM-yyyy" }} al {{ experienciaLaboral.fecha_fin | date:"MM-yyyy" }}</p>
+                <p *ngIf="experienciaLaboral.es_trabajo_actual" class="experiencia-laboral-year">{{ experienciaLaboral.fecha_inicio | date:"MM-yyyy" }} - Actualidad</p>
                 <p class="experiencia-laboral-descripcion">{{ experienciaLaboral.descripcion }}</p>
                 <p class="experiencia-laboral-tipoempleo">{{ experienciaLaboral.tipo_empleo.nombre_tipo }}</p>
             </li>
@@ -66,7 +66,7 @@
    
     <section class="skills-section" id="skillsSection">
         <div class="add-btn-container">
-            <app-add-btn *ngIf="userLoggedIn"></app-add-btn>
+            <app-add-btn *ngIf="userLoggedIn" (click)="showModal('Habilidad', 'add')"></app-add-btn>
         </div>
         <div class="section-title-grp">
             <h2 class="skills-sections-title">Habilidades</h2>
@@ -74,7 +74,7 @@
         </div>
         <div class="skill-unit-container" id="skillUnitContainer">
             <!-- SKILS -->
-            <app-habilidad-item *ngFor="let habilidad of personaHabilidades" [habilidad]="habilidad" [userLoggedIn]="userLoggedIn"></app-habilidad-item>
+            <app-habilidad-item *ngFor="let habilidad of personaHabilidades" [habilidad]="habilidad" [userLoggedIn]="userLoggedIn" [persona]="persona"></app-habilidad-item>
         </div>
     </section>
     
@@ -90,7 +90,7 @@
             <li *ngFor="let educacion of personaEducacion">
                 <div class="edit-delete-btn-grp">
                     <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Educacion','edit', educacion)"></app-edit-btn>
-                    <app-delete-btn *ngIf="userLoggedIn" (click)="deleteItem(this.educacion.id!, 'educacion')"></app-delete-btn>
+                    <app-delete-btn *ngIf="userLoggedIn" (click)="deleteItem(educacion.id!, 'Educacion')"></app-delete-btn>
                 </div>
                 <h4>{{ educacion.nivel }}</h4>
                 <p>{{ educacion.establecimiento }}</p>
@@ -101,7 +101,7 @@
 
     <section class="proyectos-section" id="proyectosSection">
         <div class="add-btn-container">
-            <app-add-btn *ngIf="userLoggedIn"></app-add-btn>
+            <app-add-btn *ngIf="userLoggedIn" (click)="showModal('Proyecto', 'add')"></app-add-btn>
         </div>
         <div class="section-title-grp">
             <h2>Proyectos</h2>
@@ -110,8 +110,8 @@
         <ul class="proyectos-ul">
             <li *ngFor="let proyecto of personaProyectos">
                 <div class="edit-delete-btn-grp-small">
-                    <app-edit-btn [size]="'small'" *ngIf="userLoggedIn"></app-edit-btn>
-                    <app-delete-btn [size]="'small'" *ngIf="userLoggedIn"></app-delete-btn>
+                    <app-edit-btn [size]="'small'" *ngIf="userLoggedIn" (click)="showModal('Proyecto', 'edit', proyecto)"></app-edit-btn>
+                    <app-delete-btn [size]="'small'" *ngIf="userLoggedIn" (click)="deleteItem(proyecto.id!, 'Proyecto')"></app-delete-btn>
                 </div>
                 <a [href]="proyecto.link" class="proyectos-ul-li-a" target="_blank">
                     <div class="proyectos-img-container">
@@ -129,6 +129,9 @@
 <!-- FOOTER -->
 <app-footer [nombre]="persona.nombre + ' ' + persona.apellido"></app-footer>
 
-<!-- <app-add-edit-persona [userLoggedIn]='userLoggedIn' [showPersonaModal]="showPersonaModal" [showBody]="showBody" [persona]="persona"></app-add-edit-persona> -->
+<!-- MODALS -->
 <app-add-edit-persona [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-persona>
 <app-add-edit-educacion [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-educacion>
+<app-add-edit-explaboral [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-explaboral>
+<app-add-edit-habilidad [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-habilidad>
+<app-add-edit-proyecto [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-proyecto>

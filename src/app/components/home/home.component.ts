@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
+/*Models*/
 import { EducacionModel } from 'src/app/models/Educacion';
 import { ExperienciaLaboralModel } from 'src/app/models/ExperienciaLaboral';
 import { HabilidadModel } from 'src/app/models/Habilidad';
 import { PersonaModel } from 'src/app/models/Persona';
 import { ProyectoModel } from 'src/app/models/Proyecto';
-import { AuthService } from 'src/app/services/auth.service';
-import { EducacionService } from 'src/app/services/educacion.service';
-import { ModalService } from 'src/app/services/modal.service';
-import { PersonaService } from 'src/app/services/persona.service';
+/*TsParticles*/
 import { Main } from 'tsparticles';
 import { Container } from 'tsparticles';
+/*Serivces*/
+import { AuthService } from 'src/app/services/auth.service';
+import { EducacionService } from 'src/app/services/educacion.service';
+import { ExperiencialaboralService } from 'src/app/services/experiencialaboral.service';
+import { ModalService } from 'src/app/services/modal.service';
+import { PersonaService } from 'src/app/services/persona.service';
+import { ProyectoService } from 'src/app/services/proyecto.service';
 
 @Component({
 	selector: 'app-home',
@@ -20,7 +26,7 @@ import { Container } from 'tsparticles';
 export class HomeComponent implements OnInit {
 
 	id = "tsparticles";
-	particlesUrl = "http://localhost:4200/assets/json/partOptions.json";
+	particlesUrl = environment.particlesUrl;
 
 	persona: PersonaModel = new PersonaModel();
 	personaEducacion: EducacionModel[] = [];
@@ -34,52 +40,50 @@ export class HomeComponent implements OnInit {
 	action: string = '';
 
 	constructor(
-		private _personaService: PersonaService,
+		private personaService: PersonaService,
 		private educacionService: EducacionService,
+		private expLaboralService: ExperiencialaboralService,
+		private proyectoService: ProyectoService,
 		private authService: AuthService,
 		private modalService: ModalService) { }
 
 	ngOnInit(): void {
 		this.getPersonaById(1);
 		this.userLoggedIn = this.checkAuthentication();
-		//console.log(this.persona.educacion.find(elem => elem.id === 2));
 	}
 
 	particlesLoaded(container: Container): void {
 		document.querySelector('#tsparticles canvas')?.setAttribute('height', '1080');
 	}
 
-	particlesInit(main: Main): void {
-		//console.log(main);
-	}
+	// particlesInit(main: Main): void {
+	// 	console.log(main);
+	// }
 
 	getPersonaById(id: number) {
-		this._personaService.getPersonaById(id).subscribe(data => {
+		this.personaService.getPersonaById(id).subscribe(data => {
 			this.persona = data;
 			this.personaEducacion = this.persona.educacion;
-			this.personaExperienciaLaboral = this.persona.experiencia_laboral.sort(this.sortArray);
-			this.personaHabilidades = this.persona.habilidades.sort(this.sortArray);
-			this.personaProyectos = this.persona.proyectos.sort(this.sortArray);
+			this.personaExperienciaLaboral = this.persona.experiencia_laboral;//.sort(this.sortArray);
+			this.personaHabilidades = this.persona.habilidades;//.sort(this.sortArray);
+			this.personaProyectos = this.persona.proyectos;//.sort(this.sortArray);
 			this.fotoUrl = '/assets/img/' + this.persona.url_foto;
+
+			//console.log(new Date(this.persona.experiencia_laboral[0].fecha_inicio).toISOString());
+			//console.log(new Date(this.persona.experiencia_laboral[0].fecha_fin).toISOString());
 		});
 	}
 
 	sortArray(a: any, b: any): number {
-		if (a.orden > b.orden) {
+		if (a.orden > b.orden)
 			return 1;
-		}
-
-		if (a.orden < b.orden) {
+		if (a.orden < b.orden)
 			return -1;
-		}
 		return 0;
 	}
 
 	checkAuthentication(): boolean {
-		if (this.authService.logIn)
-			return true;
-		else
-			return false;
+		return this.authService.logIn;
 	}
 
 	showModal(modal: string, action: string, obj?: any): void {
@@ -89,6 +93,7 @@ export class HomeComponent implements OnInit {
 				break;
 			case 'Educacion':
 				this.action = action;
+				this.modalService.$modalEducacionAction.emit(action)
 				if(action === 'edit')
 					this.modalService.$modalEducacionData.emit(obj);
 				else {
@@ -96,20 +101,81 @@ export class HomeComponent implements OnInit {
 					this.modalService.$modalEducacionData.emit(ed);
 				}
 				this.modalService.$modalEducacion.emit(true);
-				this.modalService.$modalEducacionAction.emit(action)
 				break;
+			case 'ExpLaboral':
+				this.action = action;
+				this.modalService.$modalExpLaboralAction.emit(action);
+				if(action === 'edit')
+					this.modalService.$modalExpLaboralData.emit(obj);
+				else {
+					const el: ExperienciaLaboralModel = new ExperienciaLaboralModel();
+					this.modalService.$modalExpLaboralData.emit(el);
+				}
+				this.modalService.$modalExpLaboral.emit(true);
+			break;
+			case 'Habilidad':
+				this.action = action;
+				this.modalService.$modalHabilidadAction.emit(action);
+				if(action === 'edit')
+					this.modalService.$modalHabilidadData.emit(obj);
+				else {
+					const ha: HabilidadModel = new HabilidadModel();
+					this.modalService.$modalHabilidadData.emit(ha);
+				}
+				this.modalService.$modalHabilidad.emit(true);
+			break;
+			case 'Proyecto':
+				this.action = action;
+				this.modalService.$modalProyectoAction.emit(action);
+				if(action === 'edit')
+					this.modalService.$modalProyectoData.emit(obj);
+				else {
+					const pr: ProyectoModel = new ProyectoModel();
+					console.log(pr);
+					this.modalService.$modalProyectoData.emit(pr);
+				}
+				this.modalService.$modalProyecto.emit(true);
+			break;
 		}
 	}
 
 	/*DELETE*/
-	deleteItem(id: number, item: string) {
+	deleteItem(id: number, item: string): void {
 		switch(item) {
-			case 'educacion':
+			case 'Educacion':
 				this.educacionService.deleteEducacion(this.persona.id!,id).subscribe({
 					next: res => {
 						if(res.code == 1) {
 							let index = this.persona.educacion.indexOf(this.persona.educacion.find(elem => elem.id === id)!);
 							this.persona.educacion.splice(index,1)
+							alert(res.msg);
+						}
+					},
+					error: e => {
+						console.log(e);
+					}
+				});
+			break;
+			case 'ExpLaboral':
+				this.expLaboralService.deleteExperienciaLaboral(this.persona.id!,id).subscribe({
+					next: res => {
+						if(res.code == 1) {
+							let index = this.persona.experiencia_laboral.indexOf(this.persona.experiencia_laboral.find(elem => elem.id === id)!);
+							this.persona.experiencia_laboral.splice(index,1)
+							alert(res.msg);
+						}
+					},
+					error: e => {
+						console.log(e);
+					}
+				});
+			break;
+			case 'Proyecto':
+				this.proyectoService.deleteProyecto(this.persona.id!,id).subscribe({
+					next: res => {
+						if(res.code == 1) {
+							let index = this.persona.proyectos.indexOf(this.persona.proyectos.find(elem => elem.id === id)!);
+							this.persona.proyectos.splice(index,1)
 							alert(res.msg);
 						}
 					},

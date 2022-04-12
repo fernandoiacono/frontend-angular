@@ -19,7 +19,6 @@ export class AddEditEducacionComponent implements OnInit {
     showEducacionModal: boolean = false;
     showBody: boolean = false;
 	loadingState: boolean = false;
-   
     form: FormGroup;
 
 	constructor(private modalService: ModalService, private educacionService: EducacionService, private fb: FormBuilder) {
@@ -65,7 +64,6 @@ export class AddEditEducacionComponent implements OnInit {
 				titulo: value.titulo
 			});
 		});
-
 	}
 
 	onSubmit(): void {
@@ -84,7 +82,8 @@ export class AddEditEducacionComponent implements OnInit {
 			this.educacionService.updateEducacion(this.persona.id!, this.educacion.id!,this.educacion).subscribe({
 				next: (data) => {
 					this.closeModal();
-					this.persona.educacion[this.educacion.id! - 1] = this.educacion;
+					const index : any = this.persona.educacion.indexOf(this.persona.educacion.find(elem => elem.id == this.educacion.id)!);
+					this.persona.educacion[index] = data;
 				},
 				error: (e) => { 
 					console.log(e);

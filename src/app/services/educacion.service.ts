@@ -14,11 +14,11 @@ export class EducacionService {
 
 	constructor(private _httpClient: HttpClient) { }
 
-	getAllEducacionPersonaById(id: number) {
-		return this._httpClient.get<EducacionModel>(`${this.baseUrl}/persona/${id}/educacion`);
+	getAllEducacionPersonaById(personaId: number) : Observable<EducacionModel[]>{
+		return this._httpClient.get<EducacionModel[]>(`${this.baseUrl}/persona/${personaId}/educacion`);
 	}
 
-	getEducacionById(personaId: number, id: number) {
+	getEducacionById(personaId: number, id: number) : Observable<EducacionModel> {
 		return this._httpClient.get<EducacionModel>(`${this.baseUrl}/persona/${personaId}/educacion/${id}`);
 	}
 
