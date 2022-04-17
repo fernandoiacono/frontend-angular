@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgParticlesModule } from "ng-particles";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,31 +25,35 @@ import { AddEditHabilidadComponent } from './components/modals/add-edit-habilida
 import { AddEditProyectoComponent } from './components/modals/add-edit-proyecto/add-edit-proyecto.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    HomeComponent,
-    LoginComponent,
-    FooterComponent,
-    HabilidadItemComponent,
-    AddBtnComponent,
-    EditBtnComponent,
-    DeleteBtnComponent,
-    AddEditPersonaComponent,
-    AddEditEducacionComponent,
-    AddEditExplaboralComponent,
-    AddEditHabilidadComponent,
-    AddEditProyectoComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgParticlesModule,
-    HttpClientModule,
-    ReactiveFormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		NavbarComponent,
+		HomeComponent,
+		LoginComponent,
+		FooterComponent,
+		HabilidadItemComponent,
+		AddBtnComponent,
+		EditBtnComponent,
+		DeleteBtnComponent,
+		AddEditPersonaComponent,
+		AddEditEducacionComponent,
+		AddEditExplaboralComponent,
+		AddEditHabilidadComponent,
+		AddEditProyectoComponent
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		NgParticlesModule,
+		HttpClientModule,
+		ReactiveFormsModule,
+		BrowserAnimationsModule,
+		ToastrModule.forRoot({
+			positionClass: 'toast-bottom-right'
+		}),
+	],
+	providers: [],
+	bootstrap: [AppComponent]
 })
 
 export class AppModule { }

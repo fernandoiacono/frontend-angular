@@ -21,7 +21,7 @@ export class ProyectoService {
 		return this._httpClient.get<ProyectoModel>(`${this.baseUrl}/persona/${personaId}/proyecto/${id}`);
 	}
 
-	createProyecto(personaId: number, proyecto: ProyectoModel): Observable<ProyectoModel> {
+	createProyecto(personaId: number, formData: FormData): Observable<ProyectoModel> {
 		const token: string | null = localStorage.getItem('token');
 
 		let res: any = {
@@ -33,11 +33,11 @@ export class ProyectoService {
 			return res;
 		}
 
-		const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`).set('Content-Type', 'application/json');
-		return this._httpClient.post<ProyectoModel>(`${this.baseUrl}/persona/${personaId}/proyecto/`, proyecto, { headers: headers });
+		const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);//.set('Content-Type', 'application/json');
+		return this._httpClient.post<ProyectoModel>(`${this.baseUrl}/persona/${personaId}/proyecto/`, formData, { headers: headers });
 	}
 
-	updateProyecto(personaId: number, id: number, proyecto: ProyectoModel): Observable<ProyectoModel> {
+	updateProyecto(personaId: number, id: number, formData: FormData): Observable<ProyectoModel> {
 		const token: string | null = localStorage.getItem('token');
 
 		let res: any = {
@@ -49,8 +49,8 @@ export class ProyectoService {
 			return res;
 		}
 
-		const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`).set('Content-Type', 'application/json');
-		return this._httpClient.put<ProyectoModel>(`${this.baseUrl}/persona/${personaId}/proyecto/${id}`, proyecto, { headers: headers });
+		const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`)//.set('Content-Type', 'multipart/form-data');
+		return this._httpClient.post<ProyectoModel>(`${this.baseUrl}/persona/${personaId}/proyecto/${id}`, formData, { headers: headers });
 	}
 
 	deleteProyecto(personaId: number, id: number): Observable<GenericResponseModel> {

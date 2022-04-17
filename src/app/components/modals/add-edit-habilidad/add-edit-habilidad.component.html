@@ -19,15 +19,15 @@
                     </label>
                 </div>
                 <div class="error-grp">
-                    <div class="form-error-en-grp" #errorNombre></div>
-                    <div class="form-error-en-grp" #errorPorcentaje></div>
+                    <div class="form-error-en-grp" *ngIf="form.controls['nombre'].dirty && form.controls['nombre'].hasError('required')">*El nombre es obligatorio</div>
+                    <div class="form-error-en-grp" *ngIf="form.controls['porcentaje'].dirty && form.controls['porcentaje'].hasError('required')">*El porcentaje es obligatorio</div>
                 </div>
             </div>
             <div class="archivo-grp">
                 <input type="file" name="file" id="file" class="file-input">
                 <label for="file" class="form-label-file">Agregar Logo</label>
             </div>
-            <button class="modal-submit-btn">{{ action }}</button>
+            <button class="modal-submit-btn" [disabled]="!form.valid">{{ action }}</button>
             <input type="hidden" id="hidHabilidad" value="1">
         </form>
         <div class="loading-div" *ngIf="loadingState">

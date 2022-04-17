@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { PersonaModel } from 'src/app/models/Persona';
 import { ModalService } from 'src/app/services/modal.service';
 import { PersonaService } from 'src/app/services/persona.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
     selector: 'app-add-edit-persona',
@@ -20,7 +22,7 @@ export class AddEditPersonaComponent implements OnInit {
    
     form: FormGroup;
 
-    constructor(private modalService: ModalService, private personaService: PersonaService, private fb: FormBuilder, private route: ActivatedRoute) {
+    constructor(private modalService: ModalService, private personaService: PersonaService, private fb: FormBuilder, private route: ActivatedRoute, private toastr: ToastrService) {
         this.form = this.fb.group({
 			nombre: ['', Validators.required],
 			apellido: ['', Validators.required],
@@ -32,6 +34,8 @@ export class AddEditPersonaComponent implements OnInit {
     ngOnInit(): void {
         this.modalService.$modalPersona.subscribe(value => {
             if (value == true) {
+                this.form.reset();
+                
                 this.form.patchValue({
                     nombre: this.persona.nombre,
                     apellido: this.persona.apellido,
@@ -67,10 +71,12 @@ export class AddEditPersonaComponent implements OnInit {
 
         this.personaService.updatePersona(1, this.persona).subscribe({
             next: data => {
+                this.toastr.success('Persona acualizada correctamente');
                 this.closeModal();
             },
             error: e => {
                 console.log(e);
+                this.toastr.error('Ocurrió un error inesperado');
             }
         });
     }

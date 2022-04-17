@@ -51,6 +51,8 @@ export class AddEditHabilidadComponent implements OnInit {
 		});
 
 		this.modalService.$modalHabilidadData.subscribe(value => {
+			this.form.reset();
+			
 			this.habilidad.id = value.id;
 			this.habilidad.nombre = value.nombre;
 			this.habilidad.porcentaje = value.porcentaje;
@@ -75,8 +77,6 @@ export class AddEditHabilidadComponent implements OnInit {
 
 		this.habilidad.nombre = nombre;
 		this.habilidad.porcentaje = porcentaje;
-
-		console.log(this.habilidad);
 
 		if(this.action == 'Modificar') {
 			this.habilidadService.updateHabilidad(this.persona.id!, this.habilidad.id!,this.habilidad).subscribe({

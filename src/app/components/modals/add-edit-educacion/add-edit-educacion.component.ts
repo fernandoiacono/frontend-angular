@@ -52,6 +52,8 @@ export class AddEditEducacionComponent implements OnInit {
 		});
 
 		this.modalService.$modalEducacionData.subscribe(value => {
+			this.form.reset();
+			
 			this.educacion.id = value.id;
 			this.educacion.nivel = value.nivel;
 			this.educacion.establecimiento = value.establecimiento;

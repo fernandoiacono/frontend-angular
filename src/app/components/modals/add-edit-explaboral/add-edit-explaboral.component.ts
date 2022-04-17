@@ -58,6 +58,7 @@ export class AddEditExplaboralComponent implements OnInit {
 		});
 
 		this.modalService.$modalExpLaboralData.subscribe(value => {
+			this.form.reset();
 
 			let auxDate1 : string = this.formatDate(new Date(value.fecha_inicio));
 			let auxDate2 : string = this.formatDate(new Date(value.fecha_fin));

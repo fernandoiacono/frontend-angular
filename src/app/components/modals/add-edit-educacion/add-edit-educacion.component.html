@@ -19,16 +19,16 @@
                     </label>
                 </div>
                 <div class="error-grp">
-                    <div class="form-error-en-grp" #errorNivel></div>
-                    <div class="form-error-en-grp" #errorEstablecimiento></div>
+                    <div class="form-error-en-grp" *ngIf="form.controls['nivel'].dirty && form.controls['nivel'].hasError('required')">*El nivel es obligatorio</div>
+                    <div class="form-error-en-grp" *ngIf="form.controls['establecimiento'].dirty && form.controls['establecimiento'].hasError('required')">*El establecimiento es obligatorio</div>
                 </div>
             </div>
 
             <label for="titulo" class="form-label">
                 <input type="text" id="titulo" placeholder="Título" formControlName="titulo">
             </label>
-            <div class="form-error" #errorTituloEducacion></div>
-            <button class="modal-submit-btn">{{ action }}</button>
+            <div class="form-error" *ngIf="form.controls['titulo'].dirty && form.controls['titulo'].hasError('required')">*Completar el título es obligatorio</div>
+            <button class="modal-submit-btn" [disabled]="!form.valid">{{ action }}</button>
         </form>
         <div class="loading-div" *ngIf="loadingState">
             <div class="loading-white-bg"></div>

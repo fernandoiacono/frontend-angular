@@ -73,7 +73,6 @@
             <div class="section-title-underline"></div>
         </div>
         <div class="skill-unit-container" id="skillUnitContainer">
-            <!-- SKILS -->
             <app-habilidad-item *ngFor="let habilidad of personaHabilidades" [habilidad]="habilidad" [userLoggedIn]="userLoggedIn" [persona]="persona"></app-habilidad-item>
         </div>
     </section>
@@ -115,7 +114,8 @@
                 </div>
                 <a [href]="proyecto.link" class="proyectos-ul-li-a" target="_blank">
                     <div class="proyectos-img-container">
-                        <img [src]="'/assets/img/proy/' + proyecto.url_imagen" [alt]="proyecto.nombre">
+                        <img *ngIf="proyecto.file_type != ''" [src]="proyectoBaseUrl + proyecto.id + '/dowloadImage/' + proyecto.id + '.' + proyecto.file_type" [alt]="proyecto.nombre">
+                        <img *ngIf="proyecto.file_type == ''" src="../../../assets/img/proy/placeholder.png">
                     </div>
                     <div class="proyectos-txt-container">
                         <h3>{{ proyecto.nombre }}</h3>

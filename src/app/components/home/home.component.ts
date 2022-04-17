@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
 	showPersonaModal: boolean = false;
 	showBody: boolean = false;
 	fotoUrl: string = '';
+	proyectoBaseUrl: string = '';
 	action: string = '';
 
 	constructor(
@@ -68,9 +69,7 @@ export class HomeComponent implements OnInit {
 			this.personaHabilidades = this.persona.habilidades;//.sort(this.sortArray);
 			this.personaProyectos = this.persona.proyectos;//.sort(this.sortArray);
 			this.fotoUrl = '/assets/img/' + this.persona.url_foto;
-
-			//console.log(new Date(this.persona.experiencia_laboral[0].fecha_inicio).toISOString());
-			//console.log(new Date(this.persona.experiencia_laboral[0].fecha_fin).toISOString());
+			this.proyectoBaseUrl = environment.proyImgBaseUrl + this.persona.id! + '/proyecto/';
 		});
 	}
 
@@ -131,7 +130,6 @@ export class HomeComponent implements OnInit {
 					this.modalService.$modalProyectoData.emit(obj);
 				else {
 					const pr: ProyectoModel = new ProyectoModel();
-					console.log(pr);
 					this.modalService.$modalProyectoData.emit(pr);
 				}
 				this.modalService.$modalProyecto.emit(true);

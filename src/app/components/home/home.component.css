@@ -603,9 +603,11 @@
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    height: 70vh;
+    height: unset;
+    min-height: 70vh;
     background: radial-gradient(circle at top left,#ffb7d1 0,#9ab3ff 70%,#9bccff 100%);
     position: relative;
+    padding: 4vh;
 }
 
 .proyectos-ul {

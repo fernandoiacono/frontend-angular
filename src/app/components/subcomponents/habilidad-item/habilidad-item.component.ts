@@ -15,7 +15,7 @@ export class HabilidadItemComponent implements OnInit, AfterViewInit {
 	@Input() userLoggedIn: boolean = false;
 	@Input() persona: PersonaModel = new PersonaModel();
 	action: string = '';
-
+	
 	@ViewChild('countup') numeroPorcentaje: any;
 	@ViewChild('circle') barraPorcentaje: any;
 

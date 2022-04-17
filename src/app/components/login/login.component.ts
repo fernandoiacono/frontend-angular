@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
 	selector: 'app-login',
@@ -10,10 +12,11 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-	private showPassword: boolean = false;
+	showPassword: boolean = false;
 	form: FormGroup;
+	@ViewChild('passwordInput') passwordInput? : ElementRef;
 
-	constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+	constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private toastr: ToastrService) {
 		this.form = this.fb.group({
 			usernameOrEmail: ['', Validators.required],
 			password: ['', Validators.required]
@@ -31,26 +34,19 @@ export class LoginComponent implements OnInit {
 			next: data => {
 				localStorage.setItem('token', data.token);
 				this.router.navigate(['/home']);
+				this.toastr.success('Bienvenido!');
 			},
 			error: error => {
-				console.log(error.error.message);
+				if(error.error.message !== null && error.error.message !== undefined)
+					this.toastr.error(error.error.message);
+				else
+					this.toastr.error('Ocurrió un error inesperado');
 			}
 		});
 	}
 
-	toggleEye(elem: string) {
-		if (elem.indexOf('Show') != -1) {
-			document.getElementById(elem)?.classList.add('eye-hide');
-			document.getElementById('eyeContainerHide')?.classList.remove('eye-hide');
-		} else {
-			document.getElementById(elem)?.classList.add('eye-hide');
-			document.getElementById('eyeContainerShow')?.classList.remove('eye-hide');
-		}
-
-		if (document.getElementById('loginPassword')?.getAttribute('type') === 'text') {
-			document.getElementById('loginPassword')?.setAttribute('type', 'password');
-		} else {
-			document.getElementById('loginPassword')?.setAttribute('type', 'text')
-		}
+	toggleEye(type: string) {
+		this.showPassword = !this.showPassword;
+		this.passwordInput?.nativeElement.setAttribute('type', type);
 	}
 }

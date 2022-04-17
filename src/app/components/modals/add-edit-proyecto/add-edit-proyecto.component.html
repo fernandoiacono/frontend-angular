@@ -11,21 +11,24 @@
             <label for="nombre" class="form-label">
                 <input type="text" id="nombre" placeholder="Nombre del proyecto" formControlName="nombre">
             </label>
-            <div class="form-error" #errorNombre></div>
+            <div class="form-error" *ngIf="form.controls['nombre'].dirty && form.controls['nombre'].hasError('required')">*Completar el nombre es obligatorio</div>
             <label for="descripcion" class="form-label">
                 <input type="text" id="descripcion" placeholder="Descripción del proyecto" formControlName="descripcion">
             </label>
-            <div class="form-error" #errorDescripcion></div>
+            <div class="form-error" *ngIf="form.controls['descripcion'].dirty && form.controls['descripcion'].hasError('required')">*Completar la descripción es obligatorio</div>
             <label for="link" class="form-label">
                 <input type="text" id="link" placeholder="Link del proyecto" formControlName="link">
             </label>
-            <div class="form-error" #errorLink></div>
+            <div class="form-error" *ngIf="form.controls['link'].dirty && form.controls['link'].hasError('required')">*Completar el link es obligatorio</div>
             <div class="archivo-grp">
-                <input type="file" name="file" id="file" class="file-input" formControlName="file">
-                <label for="file" class="form-label-file">Agregar Imagen</label>
+                <div *ngIf="(action === 'Agregar' && previewImageUrl) || (action === 'Modificar' && previewImageUrl !== '')">
+                    <img [src]="previewImageUrl" alt="" class="image-preview">
+                </div>
+                <!-- <input type="file" (change)="getFile($event)" name="file" id="file" class="file-input" accept=".png, .jpg, .jpeg" formControlName="file"> -->
+                <input type="file" (change)="onFileSelect($event)" name="file" id="file" class="file-input" accept=".png, .jpg, .jpeg">
+                <label for="file" class="form-label-file" #labelImagen>{{ action }} Imagen</label>
             </div>
-            <div class="form-error" #errorFile></div>
-            <button class="modal-submit-btn">{{ action }}</button>
+            <button class="modal-submit-btn" [disabled]="!form.valid">{{ action }}</button>
             <input type="hidden" id="hidProyecto" value="1">
         </form>
         <div class="loading-div" *ngIf="loadingState">

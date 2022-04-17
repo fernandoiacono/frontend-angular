@@ -19,21 +19,21 @@
                     </label>
                 </div>
                 <div class="error-grp">
-                    <div class="form-error-en-grp" #errorNombre></div>
-                    <div class="form-error-en-grp" #errorApellido></div>
+                    <div class="form-error-en-grp" *ngIf="form.controls['nombre'].dirty && form.controls['nombre'].hasError('required')">*El nombre es obligatorio</div>
+                    <div class="form-error-en-grp" *ngIf="form.controls['apellido'].dirty && form.controls['apellido'].hasError('required')">*El apellido es obligatorio</div>
                 </div>
             </div>
 
             <label for="descripcion" class="form-label">
                 <input type="text" id="descripcion" placeholder="Descripción" formControlName="descripcion">
             </label>
-            <div class="form-error" #errorDescripcion></div>
+            <div class="form-error" *ngIf="form.controls['descripcion'].dirty && form.controls['descripcion'].hasError('required')">*Completar la descripción es obligatorio</div>
             <label for="sobreMi" class="form-label">
                 <span>Sobre Mi:</span>
                 <textarea name="sobreMi" id="sobreMi" formControlName="sobre_mi"></textarea>
             </label>
-            <div class="form-error" #errorSobreMi></div>
-            <button class="modal-submit-btn">Modificar</button>
+            <div class="form-error" *ngIf="form.controls['sobre_mi'].dirty && form.controls['sobre_mi'].hasError('required')">*Completar un breve texto "Sobre Mi" es obligatorio</div>
+            <button class="modal-submit-btn" [disabled]="!form.valid">Modificar</button>
         </form>
         <div class="loading-div" *ngIf="loadingState">
             <div class="loading-white-bg"></div>
