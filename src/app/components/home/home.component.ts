@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 /*Models*/
 import { EducacionModel } from 'src/app/models/Educacion';
@@ -43,6 +43,8 @@ export class HomeComponent implements OnInit {
 	proyectoBaseUrl: string = '';
 	action: string = '';
 
+	@ViewChild('profilePhoto') profilePhoto : any;
+
 	constructor(
 		private personaService: PersonaService,
 		private educacionService: EducacionService,
@@ -55,6 +57,24 @@ export class HomeComponent implements OnInit {
 	ngOnInit(): void {
 		this.getPersonaById(1);
 		this.userLoggedIn = this.checkAuthentication();
+		
+		this.modalService.$modalPersonaProfilePhoto.subscribe(value => {
+			if(value !== '' && value !== null && value !== undefined) {
+				this.fotoUrl = value;
+				this.profilePhoto.nativeElement.src = value;
+				console.log(this.fotoUrl);
+			} else if (value === '') {
+				this.fotoUrl = '';
+			}
+		});
+
+		this.modalService.$modalPersonaData.subscribe(value => {
+			this.persona = value;
+		});
+
+		// this.authService.$authEmitter.subscribe(value => {
+		// 	this.userLoggedIn = value;
+		// });
 	}
 
 	particlesLoaded(container: Container): void {
@@ -72,7 +92,8 @@ export class HomeComponent implements OnInit {
 			this.personaExperienciaLaboral = this.persona.experiencia_laboral;//.sort(this.sortArray);
 			this.personaHabilidades = this.persona.habilidades;//.sort(this.sortArray);
 			this.personaProyectos = this.persona.proyectos;//.sort(this.sortArray);
-			this.fotoUrl = '/assets/img/' + this.persona.url_foto;
+			//this.fotoUrl = '/assets/img/' + this.persona.file_type;
+			this.fotoUrl = `${environment.personaImgBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
 			this.proyectoBaseUrl = environment.proyImgBaseUrl + this.persona.id! + '/proyecto/';
 		});
 	}
@@ -138,6 +159,10 @@ export class HomeComponent implements OnInit {
 				}
 				this.modalService.$modalProyecto.emit(true);
 				break;
+			case 'ProfilePhoto':
+				this.modalService.$modalPhoto.emit(true);
+				this.modalService.$modalPersonaData.emit(this.persona);
+				break;
 		}
 	}
 
@@ -172,7 +197,6 @@ export class HomeComponent implements OnInit {
 						}
 					},
 					error: e => {
-						//console.log(e);
 						this.toastr.error('Ocurrió un error inesperado');
 					}
 				});
@@ -183,12 +207,10 @@ export class HomeComponent implements OnInit {
 						if (res.code == 1) {
 							let index = this.persona.experiencia_laboral.indexOf(this.persona.experiencia_laboral.find(elem => elem.id === id)!);
 							this.persona.experiencia_laboral.splice(index, 1)
-							//alert(res.msg);
 							this.toastr.success(res.msg);
 						}
 					},
 					error: e => {
-						//console.log(e);
 						this.toastr.error('Ocurrió un error inesperado');
 					}
 				});
@@ -199,12 +221,10 @@ export class HomeComponent implements OnInit {
 						if (res.code == 1) {
 							let index = this.persona.proyectos.indexOf(this.persona.proyectos.find(elem => elem.id === id)!);
 							this.persona.proyectos.splice(index, 1)
-							//alert(res.msg);
 							this.toastr.success(res.msg);
 						}
 					},
 					error: e => {
-						//console.log(e);
 						this.toastr.error('Ocurrió un error inesperado');
 					}
 				});

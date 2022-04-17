@@ -99,7 +99,16 @@ export class AddEditEducacionComponent implements OnInit {
 				}
 			});
 		} else {
-			this.educacion.orden = this.persona.educacion.length;
+			//this.educacion.orden = this.persona.educacion.length;
+
+			let auxOrden : any = [];
+			this.persona.educacion.map(elem => {
+				auxOrden.push(elem.orden);
+			});
+
+			let max: number = Math.max(...auxOrden);
+
+			this.educacion.orden = max + 1;
 
 			this.educacionService.createEducacion(this.persona.id!, this.educacion).subscribe({
 				next: (data) => {

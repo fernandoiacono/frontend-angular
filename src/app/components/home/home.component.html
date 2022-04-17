@@ -8,13 +8,27 @@
             <div class="intro-content-wrapper">
                 <div class="intro-content-div div-left">
                     <div class="photo-placeholder">
-                        <img [src]="fotoUrl" alt="Foto del usuario">
+                        <div class="photo-edit-btn">
+                            <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('ProfilePhoto','edit', persona)"></app-edit-btn>
+                        </div>
+                        <div class="photo-img-overflow-hidden">
+                            <!-- <img src="../../../assets/img/user.png" alt="Foto del usuario" [ngClass]="persona.file_type !== '' ? 'display-none': ''">
+                            <img [src]="fotoUrl" alt="Foto del usuario" [ngClass]="persona.file_type === '' ? 'display-none': ''" #profilePhoto> -->
+                            <img src="../../../assets/img/user.png" alt="Foto del usuario" *ngIf="persona.file_type === '' || persona.file_type === null">
+                            <img [src]="fotoUrl" alt="Foto del usuario" *ngIf="persona.file_type !== '' && persona.file_type !== null">
+                        </div>
                     </div>
                 </div>
                 <div class="intro-content-div div-right">
                     <div class="white-blur"></div>
                     <div class="photo-placeholder-mobile">
-                        <img [src]="fotoUrl" alt="Foto del usuario">
+                        <div class="photo-edit-btn">
+                            <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('ProfilePhoto','edit', persona)"></app-edit-btn>
+                        </div>
+                        <div class="photo-img-overflow-hidden">
+                            <img src="../../../assets/img/user.png" alt="Foto del usuario" *ngIf="persona.file_type === '' || persona.file_type === null">
+                            <img [src]="fotoUrl" alt="Foto del usuario" *ngIf="persona.file_type !== '' && persona.file_type !== null">
+                        </div>
                     </div>
                     <h1>
                         {{persona.nombre}} {{persona.apellido}}
@@ -49,7 +63,10 @@
             <h2>Experiencia Laboral</h2>
             <div class="section-title-underline"></div>
         </div>
-        <ul>
+        <div class="sin-registros" *ngIf="personaExperienciaLaboral.length == 0">
+            <h2>No existen registros para mostrar</h2>
+        </div>
+        <ul *ngIf="personaExperienciaLaboral.length > 0">
             <li *ngFor="let experienciaLaboral of personaExperienciaLaboral">
                 <div class="edit-delete-btn-grp">
                     <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('ExpLaboral','edit', experienciaLaboral)"></app-edit-btn>
@@ -72,7 +89,10 @@
             <h2 class="skills-sections-title">Habilidades</h2>
             <div class="section-title-underline"></div>
         </div>
-        <div class="skill-unit-container" id="skillUnitContainer">
+        <div class="sin-registros" *ngIf="personaHabilidades.length == 0">
+            <h2>No existen registros para mostrar</h2>
+        </div>
+        <div class="skill-unit-container" id="skillUnitContainer" *ngIf="personaHabilidades.length > 0">
             <app-habilidad-item *ngFor="let habilidad of personaHabilidades" [habilidad]="habilidad" [userLoggedIn]="userLoggedIn" [persona]="persona"></app-habilidad-item>
         </div>
     </section>
@@ -85,7 +105,10 @@
             <h2>Educación</h2>
             <div class="section-title-underline"></div>
         </div>
-        <ul>
+        <div class="sin-registros" *ngIf="personaEducacion.length == 0">
+            <h2>No existen registros para mostrar</h2>
+        </div>
+        <ul *ngIf="personaEducacion.length > 0">
             <li *ngFor="let educacion of personaEducacion">
                 <div class="edit-delete-btn-grp">
                     <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Educacion','edit', educacion)"></app-edit-btn>
@@ -106,7 +129,10 @@
             <h2>Proyectos</h2>
             <div class="section-title-underline"></div>
         </div>
-        <ul class="proyectos-ul">
+        <div class="sin-registros" *ngIf="personaProyectos.length == 0">
+            <h2>No existen registros para mostrar</h2>
+        </div>
+        <ul class="proyectos-ul" *ngIf="personaProyectos.length > 0">
             <li *ngFor="let proyecto of personaProyectos">
                 <div class="edit-delete-btn-grp-small">
                     <app-edit-btn [size]="'small'" *ngIf="userLoggedIn" (click)="showModal('Proyecto', 'edit', proyecto)"></app-edit-btn>
@@ -131,6 +157,7 @@
 
 <!-- MODALS -->
 <app-add-edit-persona [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-persona>
+<app-add-edit-profile-photo [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-profile-photo>
 <app-add-edit-educacion [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-educacion>
 <app-add-edit-explaboral [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-explaboral>
 <app-add-edit-habilidad [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-habilidad>

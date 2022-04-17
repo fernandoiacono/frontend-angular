@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
 	showPassword: boolean = false;
 	form: FormGroup;
+	loadingState: boolean = false;
 	@ViewChild('passwordInput') passwordInput? : ElementRef;
 
 	constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private toastr: ToastrService) {
@@ -30,13 +31,18 @@ export class LoginComponent implements OnInit {
 		const usernameOrEmailValue = this.form.value.usernameOrEmail;
 		const passwordValue = this.form.value.password;
 
+		this.loadingState = true;
+
 		this.authService.doLogin(usernameOrEmailValue, passwordValue).subscribe({
 			next: data => {
+				this.loadingState = false;
 				localStorage.setItem('token', data.token);
 				this.router.navigate(['/home']);
+				//this.authService.$authEmitter.emit(true);
 				this.toastr.success('Bienvenido!');
 			},
 			error: error => {
+				this.loadingState = false;
 				if(error.error.message !== null && error.error.message !== undefined)
 					this.toastr.error(error.error.message);
 				else

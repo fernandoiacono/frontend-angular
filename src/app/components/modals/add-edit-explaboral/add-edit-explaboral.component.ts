@@ -1,12 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { max } from 'rxjs';
 import { ExperienciaLaboralModel } from 'src/app/models/ExperienciaLaboral';
 import { PersonaModel } from 'src/app/models/Persona';
 import { TipoEmpleoModel } from 'src/app/models/TipoEmpleo';
 import { ExperiencialaboralService } from 'src/app/services/experiencialaboral.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { TipoempleoService } from 'src/app/services/tipoempleo.service';
+import { __values } from 'tslib';
 
 @Component({
 	selector: 'app-add-edit-explaboral',
@@ -106,6 +108,11 @@ export class AddEditExplaboralComponent implements OnInit {
 				console.log(err);
 			}
 		});
+
+		// this.modalService.$modalPersonaData.subscribe(value => {
+		// 	this.persona = value;
+		// 	console.log('ExpLaboral', this.persona);
+		// });
 	}
 
 	onSubmit(): void {
@@ -140,13 +147,21 @@ export class AddEditExplaboralComponent implements OnInit {
 					this.toastr.success('Experiencia laboral acualizada correctamente');
 				},
 				error: (e) => { 
-					//console.log(e);
 					this.closeModal();
 					this.toastr.error('Ocurrió un error inesperado');
 				}
 			});
 		} else {
-			this.explaboral.orden = this.persona.experiencia_laboral.length;
+			
+			let auxOrden : any = [];
+			this.persona.experiencia_laboral.map(elem => {
+				auxOrden.push(elem.orden);
+			});
+
+			let max: number = Math.max(...auxOrden);
+
+			this.explaboral.orden = max + 1;
+			
 			this.explaboral.fecha_fin = new Date(Date.now()).toISOString().replace('Z', '+00:00');
 
 			this.experienciaLaboralService.createExperienciaLaboral(this.persona.id!, this.explaboral).subscribe({

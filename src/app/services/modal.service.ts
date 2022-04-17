@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { EducacionModel } from '../models/Educacion';
 import { ExperienciaLaboralModel } from '../models/ExperienciaLaboral';
 import { HabilidadModel } from '../models/Habilidad';
+import { PersonaModel } from '../models/Persona';
 import { ProyectoModel } from '../models/Proyecto';
 
 @Injectable({
@@ -10,6 +11,8 @@ import { ProyectoModel } from '../models/Proyecto';
 export class ModalService {
 	constructor() { }
 	$modalPersona = new EventEmitter<any>();
+	$modalPersonaData = new EventEmitter<PersonaModel>();
+	$modalPersonaProfilePhoto = new EventEmitter<string>();
 	
 	$modalEducacion = new EventEmitter<any>();
 	$modalEducacionData = new EventEmitter<EducacionModel>();
@@ -26,4 +29,6 @@ export class ModalService {
 	$modalProyecto = new EventEmitter<any>();
 	$modalProyectoData = new EventEmitter<ProyectoModel>();
 	$modalProyectoAction = new EventEmitter<string>();
+
+	$modalPhoto = new EventEmitter<any>();
 }

@@ -137,12 +137,20 @@ export class AddEditProyectoComponent implements OnInit {
 				}
 			});
 		} else {
+
+			let auxOrden : any = [];
+			this.persona.proyectos.map(elem => {
+				auxOrden.push(elem.orden);
+			});
+
+			let max: number = Math.max(...auxOrden);
+
 			const formData = new FormData();
 			formData.append('file', this.fileToUpload);
 			formData.append('nombre', nombre);
 			formData.append('descripcion', descripcion);
 			formData.append('file_type', fileType);
-			formData.append('orden', this.persona.proyectos.length.toString());
+			formData.append('orden', (max + 1).toString());
 			formData.append('link', link);
 
 			this.proyectoService.createProyecto(this.persona.id!, formData).subscribe({

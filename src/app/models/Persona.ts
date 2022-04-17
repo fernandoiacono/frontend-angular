@@ -13,7 +13,7 @@ export class PersonaModel {
     correo: string = '';
     descripcion: string = '';
     sobre_mi: string = '';
-    url_foto: string = '';
+    file_type: string = '';
     facebook_link: string = '';
     github_link: string = '';
     educacion: EducacionModel[] = [];

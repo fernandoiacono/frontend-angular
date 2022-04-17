@@ -22,4 +22,8 @@
     <div>
         <a routerLink="/" class="back-to-home-link">Volver</a>
     </div>
+    <div class="loading-div" *ngIf="loadingState">
+        <div class="loading-white-bg"></div>
+        <div class="spinner"></div>
+    </div>
 </div>

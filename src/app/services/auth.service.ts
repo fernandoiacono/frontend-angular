@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { JWTResponse } from '../models/JWTResponse';
@@ -10,6 +10,7 @@ import { JWTResponse } from '../models/JWTResponse';
 export class AuthService {
 
 	private authUrl: string = environment.baseAuthUrl;
+	$authEmitter = new EventEmitter<boolean>();
 
 	token: string = '';
 
@@ -25,6 +26,7 @@ export class AuthService {
 	}
 
 	public get logIn(): boolean {
+		//this.$authEmitter.emit((localStorage.getItem('token') !== null));
 		return (localStorage.getItem('token') !== null);
 	}
 }

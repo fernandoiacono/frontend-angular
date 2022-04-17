@@ -61,6 +61,7 @@
     z-index: 10;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .div-right h2 {
@@ -102,24 +103,42 @@
 /* PHOTO */
 
 .photo-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 50%;
     width: 20vw;
     height: 20vw;
     min-width: 18rem;
     min-height: 18rem;
-    overflow: hidden;
     border: 1px solid rgba(255, 225, 255, 0.5);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .photo-placeholder img {
     width: 90%;
 }
 
+.photo-img-overflow-hidden {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .photo-placeholder-mobile {
     display: none;
+    position: relative;
+}
+
+.photo-edit-btn {
+    position: absolute;
+    top: 0;
+    right: 2vw;
+    z-index: 100;
 }
 
 @media only screen and (max-width: 1200px)  and (orientation: portrait) {
@@ -201,7 +220,6 @@
         border-radius: 50%;
         width: 8rem;
         height: 8rem;
-        overflow: hidden;
         border: 1px solid rgba(255, 225, 255, 0.5);
     }
 
@@ -273,8 +291,7 @@
         border-radius: 50%;
         width: 8rem;
         height: 8rem;
-        overflow: hidden;
-        border: 1px solid rgba(255, 225, 255, 0.5);
+        border: 1px solid rgba(255, 225, 255, 0.25);
     }
 
     .photo-placeholder-mobile img {
@@ -326,6 +343,7 @@
     flex-direction: column;
     padding: 2rem 0;
     position: relative;
+    min-height: 65vh;
 }
 
 .exp-section ul {
@@ -430,6 +448,7 @@
 .skills-section {
     display: flex;
     width: 100%;
+    min-height: 65vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -604,7 +623,7 @@
     flex-direction: column;
     width: 100%;
     height: unset;
-    min-height: 70vh;
+    min-height: 65vh;
     background: radial-gradient(circle at top left,#ffb7d1 0,#9ab3ff 70%,#9bccff 100%);
     position: relative;
     padding: 4vh;
@@ -878,4 +897,29 @@
         right: 0;
         padding-right: 1vw;
     }
+}
+
+/*-----------------------------------------------------------------------------------------------*/
+/* SIN REGISTROS
+/*-----------------------------------------------------------------------------------------------*/
+
+.sin-registros {
+    /* flex-direction: column; */
+    /* position: relative; */
+    padding: 2rem 0;
+    margin: 3vh 0;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+    width: 90%;
+    text-align: center;
+    border:  1px solid rgba(238, 238, 238, 0.15);
+    border-radius: 0.5rem;
+    box-shadow: 5px 5px 15px rgba(255,255,255,0.25);
+}
+
+.sin-registros h2 {
+    color: rgba(0,0,0,0.25);
 }

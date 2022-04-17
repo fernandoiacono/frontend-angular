@@ -71,7 +71,13 @@
 
 /* TITULO MODAL */
 .modal-titulo {
-    font-size: clamp(0.75rem, 0.95vh + 1rem, 1.65rem);
+    font-size: clamp(0.65rem, 0.95vh + 1rem, 1.65rem);
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .modal-titulo {
+        font-size: 1.05rem;
+    }
 }
 
 .modal-subrayado {
@@ -102,6 +108,12 @@ form {
     color: rgba(0, 0, 0, 0.55);
 }
 
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .form-label {
+        font-size: 0.85rem;
+    }
+}
+
 .label-spacer {
     width: 1vw;
 }
@@ -124,6 +136,12 @@ form {
     justify-content: center;
     width: 47%;
     padding: 0.75vh 0;
+}
+
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .label-checkbox {
+        width: 55%;
+    }
 }
 
 .label-checkbox span {
@@ -210,7 +228,7 @@ textarea {
 }
 
 /* BTN SUMBIT */
-.modal-submit-btn {
+.modal-submit-btn, .delete-profile-photo-btn {
     margin-top: 0.75vh;
     padding: 1.5vh 0;
     border: none;
@@ -228,14 +246,18 @@ textarea {
     font-size: var(--input-font-size);
 }
 
-.modal-submit-btn:hover {
+.modal-submit-btn:hover, .delete-profile-photo-btn:hover {
     background-position-x: 50%;
 }
 
-.modal-submit-btn:disabled {
+.modal-submit-btn:disabled, .delete-profile-photo-btn:disabled {
     background: #424242;
     color: rgba(146, 146, 146, 0.473);
     cursor: not-allowed;
+}
+
+.delete-profile-photo-btn {
+    margin-top: 1vh;
 }
 
 /* ERRORES */

@@ -97,7 +97,16 @@ export class AddEditHabilidadComponent implements OnInit {
 				}
 			});
 		} else {
-			this.habilidad.orden = this.persona.habilidades.length;
+			//this.habilidad.orden = this.persona.habilidades.length;
+
+			let auxOrden : any = [];
+			this.persona.habilidades.map(elem => {
+				auxOrden.push(elem.orden);
+			});
+
+			let max: number = Math.max(...auxOrden);
+
+			this.habilidad.orden = max + 1;
 
 			this.habilidadService.createHabilidad(this.persona.id!, this.habilidad).subscribe({
 				next: (data) => {
