@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { EducacionModel } from 'src/app/models/Educacion';
 import { PersonaModel } from 'src/app/models/Persona';
 import { EducacionService } from 'src/app/services/educacion.service';
@@ -21,7 +22,10 @@ export class AddEditEducacionComponent implements OnInit {
 	loadingState: boolean = false;
     form: FormGroup;
 
-	constructor(private modalService: ModalService, private educacionService: EducacionService, private fb: FormBuilder) {
+	constructor(private modalService: ModalService, 
+				private educacionService: EducacionService,
+				private fb: FormBuilder,
+				private toastr: ToastrService) {
         this.form = this.fb.group({
 			nivel: ['', Validators.required],
 			establecimiento: ['', Validators.required],
@@ -83,13 +87,15 @@ export class AddEditEducacionComponent implements OnInit {
 		if(this.action == 'Modificar') {
 			this.educacionService.updateEducacion(this.persona.id!, this.educacion.id!,this.educacion).subscribe({
 				next: (data) => {
-					this.closeModal();
 					const index : any = this.persona.educacion.indexOf(this.persona.educacion.find(elem => elem.id == this.educacion.id)!);
 					this.persona.educacion[index] = data;
+					this.closeModal();
+					this.toastr.success('Educación acualizada correctamente');
 				},
 				error: (e) => { 
-					console.log(e);
+					//console.log(e);
 					this.closeModal();
+					this.toastr.error('Ocurrió un error inesperado');
 				}
 			});
 		} else {
@@ -97,12 +103,14 @@ export class AddEditEducacionComponent implements OnInit {
 
 			this.educacionService.createEducacion(this.persona.id!, this.educacion).subscribe({
 				next: (data) => {
-					this.closeModal();
 					this.persona.educacion.push(data);
+					this.closeModal();
+					this.toastr.success('Educación agregada correctamente');
 				},
 				error: (e) => {
-					console.log(e)
+					//console.log(e)
 					this.closeModal();
+					this.toastr.error('Ocurrió un error inesperado');
 				}
 			});
 		}

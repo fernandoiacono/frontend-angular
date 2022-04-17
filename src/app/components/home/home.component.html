@@ -53,7 +53,7 @@
             <li *ngFor="let experienciaLaboral of personaExperienciaLaboral">
                 <div class="edit-delete-btn-grp">
                     <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('ExpLaboral','edit', experienciaLaboral)"></app-edit-btn>
-                    <app-delete-btn *ngIf="userLoggedIn" (click)="deleteItem(experienciaLaboral.id!, 'ExpLaboral')"></app-delete-btn>
+                    <app-delete-btn *ngIf="userLoggedIn" (click)="deleteDialog(experienciaLaboral.id!, 'ExpLaboral')"></app-delete-btn>
                 </div>
                 <h4>{{ experienciaLaboral.nombre_empresa }}</h4>
                 <p *ngIf="!experienciaLaboral.es_trabajo_actual" class="experiencia-laboral-year">{{ experienciaLaboral.fecha_inicio | date:"MM-yyyy" }} al {{ experienciaLaboral.fecha_fin | date:"MM-yyyy" }}</p>
@@ -89,7 +89,7 @@
             <li *ngFor="let educacion of personaEducacion">
                 <div class="edit-delete-btn-grp">
                     <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Educacion','edit', educacion)"></app-edit-btn>
-                    <app-delete-btn *ngIf="userLoggedIn" (click)="deleteItem(educacion.id!, 'Educacion')"></app-delete-btn>
+                    <app-delete-btn *ngIf="userLoggedIn" (click)="deleteDialog(educacion.id!, 'Educacion')"></app-delete-btn>
                 </div>
                 <h4>{{ educacion.nivel }}</h4>
                 <p>{{ educacion.establecimiento }}</p>
@@ -110,7 +110,7 @@
             <li *ngFor="let proyecto of personaProyectos">
                 <div class="edit-delete-btn-grp-small">
                     <app-edit-btn [size]="'small'" *ngIf="userLoggedIn" (click)="showModal('Proyecto', 'edit', proyecto)"></app-edit-btn>
-                    <app-delete-btn [size]="'small'" *ngIf="userLoggedIn" (click)="deleteItem(proyecto.id!, 'Proyecto')"></app-delete-btn>
+                    <app-delete-btn [size]="'small'" *ngIf="userLoggedIn" (click)="deleteDialog(proyecto.id!, 'Proyecto')"></app-delete-btn>
                 </div>
                 <a [href]="proyecto.link" class="proyectos-ul-li-a" target="_blank">
                     <div class="proyectos-img-container">

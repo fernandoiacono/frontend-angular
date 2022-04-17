@@ -2,7 +2,7 @@
     <div class="ring">
         <div class="edit-delete-btn-grp-small">
             <app-edit-btn [size]="'small'" *ngIf="userLoggedIn" (click)="showModal('edit', habilidad)"></app-edit-btn>
-            <app-delete-btn [size]="'small'" *ngIf="userLoggedIn" (click)="deleteItem(habilidad.id!)"></app-delete-btn>
+            <app-delete-btn [size]="'small'" *ngIf="userLoggedIn" (click)="deleteDialog(habilidad.id!)"></app-delete-btn>
         </div>
         <svg viewBox="0 0 36 36" class="circular-chart">
             <defs>

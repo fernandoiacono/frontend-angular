@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { ExperienciaLaboralModel } from 'src/app/models/ExperienciaLaboral';
 import { PersonaModel } from 'src/app/models/Persona';
 import { TipoEmpleoModel } from 'src/app/models/TipoEmpleo';
@@ -24,7 +25,11 @@ export class AddEditExplaboralComponent implements OnInit {
 	form: FormGroup;
 	tipoEmpleoArr: TipoEmpleoModel[] = [];
 
-	constructor(private modalService: ModalService, private experienciaLaboralService : ExperiencialaboralService, private tipoEmpleoService: TipoempleoService, private fb: FormBuilder) {
+	constructor(private modalService: ModalService,
+				private experienciaLaboralService : ExperiencialaboralService,
+				private tipoEmpleoService: TipoempleoService,
+				private fb: FormBuilder,
+				private toastr: ToastrService) {
 		this.form = this.fb.group({
 			nombre_empresa: ['', Validators.required],
 			descripcion: ['', Validators.required],
@@ -129,13 +134,15 @@ export class AddEditExplaboralComponent implements OnInit {
 			
 			this.experienciaLaboralService.updateExperienciaLaboral(this.persona.id!, this.explaboral.id!,this.explaboral).subscribe({
 				next: (data) => {
-					this.closeModal();
 					const index : any = this.persona.experiencia_laboral.indexOf(this.persona.experiencia_laboral.find(elem => elem.id == this.explaboral.id)!);
 					this.persona.experiencia_laboral[index] = data;
+					this.closeModal();
+					this.toastr.success('Experiencia laboral acualizada correctamente');
 				},
 				error: (e) => { 
-					console.log(e);
+					//console.log(e);
 					this.closeModal();
+					this.toastr.error('Ocurrió un error inesperado');
 				}
 			});
 		} else {
@@ -144,12 +151,14 @@ export class AddEditExplaboralComponent implements OnInit {
 
 			this.experienciaLaboralService.createExperienciaLaboral(this.persona.id!, this.explaboral).subscribe({
 				next: (data) => {
-					this.closeModal();
 					this.persona.experiencia_laboral.push(data);
+					this.closeModal();
+					this.toastr.success('Experiencia laboral agregada correctamente');
 				},
 				error: (e) => {
-					console.log(e)
+					//console.log(e)
 					this.closeModal();
+					this.toastr.error('Ocurrió un error inesperado');
 				}
 			});
 		}

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { HabilidadModel } from 'src/app/models/Habilidad';
 import { PersonaModel } from 'src/app/models/Persona';
 import { HabilidadService } from 'src/app/services/habilidad.service';
@@ -21,7 +22,10 @@ export class AddEditHabilidadComponent implements OnInit {
 	loadingState: boolean = false;
 	form: FormGroup;
 
-	constructor(private modalService: ModalService, private habilidadService: HabilidadService, private fb: FormBuilder) {
+	constructor(private modalService: ModalService,
+				private habilidadService: HabilidadService,
+				private fb: FormBuilder,
+				private toastr: ToastrService) {
 		this.form = this.fb.group({
 			nombre: ['', Validators.required],
 			porcentaje: ['', Validators.required],
@@ -81,13 +85,15 @@ export class AddEditHabilidadComponent implements OnInit {
 		if(this.action == 'Modificar') {
 			this.habilidadService.updateHabilidad(this.persona.id!, this.habilidad.id!,this.habilidad).subscribe({
 				next: (data) => {
-					this.closeModal();
 					const index : any = this.persona.habilidades.indexOf(this.persona.habilidades.find(elem => elem.id == this.habilidad.id)!);
 					this.persona.habilidades[index] = data;
+					this.closeModal();
+					this.toastr.success('Experiencia laboral acualizada correctamente');
 				},
 				error: (e) => { 
-					console.log(e);
+					//console.log(e);
 					this.closeModal();
+					this.toastr.error('Ocurrió un error inesperado');
 				}
 			});
 		} else {
@@ -95,12 +101,14 @@ export class AddEditHabilidadComponent implements OnInit {
 
 			this.habilidadService.createHabilidad(this.persona.id!, this.habilidad).subscribe({
 				next: (data) => {
-					this.closeModal();
 					this.persona.habilidades.push(data);
+					this.closeModal();
+					this.toastr.success('Experiencia laboral agregada correctamente');
 				},
 				error: (e) => {
-					console.log(e)
+					//console.log(e)
 					this.closeModal();
+					this.toastr.error('Ocurrió un error inesperado');
 				}
 			});
 		}

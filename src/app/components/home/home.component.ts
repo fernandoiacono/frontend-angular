@@ -7,8 +7,10 @@ import { HabilidadModel } from 'src/app/models/Habilidad';
 import { PersonaModel } from 'src/app/models/Persona';
 import { ProyectoModel } from 'src/app/models/Proyecto';
 /*TsParticles*/
-import { Main } from 'tsparticles';
+//import { Main } from 'tsparticles';
 import { Container } from 'tsparticles';
+/*SweetAlert 2*/
+import Swal from 'sweetalert2'
 /*Serivces*/
 import { AuthService } from 'src/app/services/auth.service';
 import { EducacionService } from 'src/app/services/educacion.service';
@@ -16,6 +18,7 @@ import { ExperiencialaboralService } from 'src/app/services/experiencialaboral.s
 import { ModalService } from 'src/app/services/modal.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { ProyectoService } from 'src/app/services/proyecto.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-home',
@@ -46,7 +49,8 @@ export class HomeComponent implements OnInit {
 		private expLaboralService: ExperiencialaboralService,
 		private proyectoService: ProyectoService,
 		private authService: AuthService,
-		private modalService: ModalService) { }
+		private modalService: ModalService,
+		private toastr: ToastrService) { }
 
 	ngOnInit(): void {
 		this.getPersonaById(1);
@@ -93,7 +97,7 @@ export class HomeComponent implements OnInit {
 			case 'Educacion':
 				this.action = action;
 				this.modalService.$modalEducacionAction.emit(action)
-				if(action === 'edit')
+				if (action === 'edit')
 					this.modalService.$modalEducacionData.emit(obj);
 				else {
 					const ed: EducacionModel = new EducacionModel();
@@ -104,84 +108,107 @@ export class HomeComponent implements OnInit {
 			case 'ExpLaboral':
 				this.action = action;
 				this.modalService.$modalExpLaboralAction.emit(action);
-				if(action === 'edit')
+				if (action === 'edit')
 					this.modalService.$modalExpLaboralData.emit(obj);
 				else {
 					const el: ExperienciaLaboralModel = new ExperienciaLaboralModel();
 					this.modalService.$modalExpLaboralData.emit(el);
 				}
 				this.modalService.$modalExpLaboral.emit(true);
-			break;
+				break;
 			case 'Habilidad':
 				this.action = action;
 				this.modalService.$modalHabilidadAction.emit(action);
-				if(action === 'edit')
+				if (action === 'edit')
 					this.modalService.$modalHabilidadData.emit(obj);
 				else {
 					const ha: HabilidadModel = new HabilidadModel();
 					this.modalService.$modalHabilidadData.emit(ha);
 				}
 				this.modalService.$modalHabilidad.emit(true);
-			break;
+				break;
 			case 'Proyecto':
 				this.action = action;
 				this.modalService.$modalProyectoAction.emit(action);
-				if(action === 'edit')
+				if (action === 'edit')
 					this.modalService.$modalProyectoData.emit(obj);
 				else {
 					const pr: ProyectoModel = new ProyectoModel();
 					this.modalService.$modalProyectoData.emit(pr);
 				}
 				this.modalService.$modalProyecto.emit(true);
-			break;
+				break;
 		}
+	}
+
+
+	deleteDialog(id: number, item: string): void {
+		Swal.fire({
+			title: 'Atención!',
+			text: '¿Esta serguro de eliminar este registro?',
+			icon: 'question',
+			confirmButtonText: 'Sí',
+			denyButtonText: 'No',
+			showDenyButton: true
+		}).then((result) => {
+			if (result.isConfirmed) {
+				this.deleteItem(id, item);
+			} else if (result.isDenied) {
+				return;
+			}
+		})
 	}
 
 	/*DELETE*/
 	deleteItem(id: number, item: string): void {
-		switch(item) {
+		switch (item) {
 			case 'Educacion':
-				this.educacionService.deleteEducacion(this.persona.id!,id).subscribe({
+				this.educacionService.deleteEducacion(this.persona.id!, id).subscribe({
 					next: res => {
-						if(res.code == 1) {
+						if (res.code == 1) {
 							let index = this.persona.educacion.indexOf(this.persona.educacion.find(elem => elem.id === id)!);
-							this.persona.educacion.splice(index,1)
-							alert(res.msg);
+							this.persona.educacion.splice(index, 1)
+							this.toastr.success(res.msg);
 						}
 					},
 					error: e => {
-						console.log(e);
+						//console.log(e);
+						this.toastr.error('Ocurrió un error inesperado');
 					}
 				});
-			break;
+				break;
 			case 'ExpLaboral':
-				this.expLaboralService.deleteExperienciaLaboral(this.persona.id!,id).subscribe({
+				this.expLaboralService.deleteExperienciaLaboral(this.persona.id!, id).subscribe({
 					next: res => {
-						if(res.code == 1) {
+						if (res.code == 1) {
 							let index = this.persona.experiencia_laboral.indexOf(this.persona.experiencia_laboral.find(elem => elem.id === id)!);
-							this.persona.experiencia_laboral.splice(index,1)
-							alert(res.msg);
+							this.persona.experiencia_laboral.splice(index, 1)
+							//alert(res.msg);
+							this.toastr.success(res.msg);
 						}
 					},
 					error: e => {
-						console.log(e);
+						//console.log(e);
+						this.toastr.error('Ocurrió un error inesperado');
 					}
 				});
-			break;
+				break;
 			case 'Proyecto':
-				this.proyectoService.deleteProyecto(this.persona.id!,id).subscribe({
+				this.proyectoService.deleteProyecto(this.persona.id!, id).subscribe({
 					next: res => {
-						if(res.code == 1) {
+						if (res.code == 1) {
 							let index = this.persona.proyectos.indexOf(this.persona.proyectos.find(elem => elem.id === id)!);
-							this.persona.proyectos.splice(index,1)
-							alert(res.msg);
+							this.persona.proyectos.splice(index, 1)
+							//alert(res.msg);
+							this.toastr.success(res.msg);
 						}
 					},
 					error: e => {
-						console.log(e);
+						//console.log(e);
+						this.toastr.error('Ocurrió un error inesperado');
 					}
 				});
-			break;
+				break;
 		}
 	}
 }

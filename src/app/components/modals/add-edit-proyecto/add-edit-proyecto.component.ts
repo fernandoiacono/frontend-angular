@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToastrService } from 'ngx-toastr';
 import { PersonaModel } from 'src/app/models/Persona';
 import { ProyectoModel } from 'src/app/models/Proyecto';
 import { ModalService } from 'src/app/services/modal.service';
@@ -31,7 +32,8 @@ export class AddEditProyectoComponent implements OnInit {
 		private modalService: ModalService,
 		private proyectoService: ProyectoService,
 		private fb: FormBuilder,
-		private sanitizer: DomSanitizer) {
+		private sanitizer: DomSanitizer,
+		private toastr: ToastrService) {
 		this.form = this.fb.group({
 			nombre: ['', Validators.required],
 			descripcion: ['', Validators.required],
@@ -123,13 +125,15 @@ export class AddEditProyectoComponent implements OnInit {
 
 			this.proyectoService.updateProyecto(this.persona.id!, this.proyecto.id!, formData).subscribe({
 				next: (data) => {
-					this.closeModal();
 					const index: any = this.persona.proyectos.indexOf(this.persona.proyectos.find(elem => elem.id == this.proyecto.id)!);
 					this.persona.proyectos[index] = data;
+					this.closeModal();
+					this.toastr.success('Proyecto acualizado correctamente');
 				},
 				error: (e) => {
-					console.log(e);
+					//console.log(e);
 					this.closeModal();
+					this.toastr.error('Ocurrió un error inesperado');
 				}
 			});
 		} else {
@@ -143,12 +147,14 @@ export class AddEditProyectoComponent implements OnInit {
 
 			this.proyectoService.createProyecto(this.persona.id!, formData).subscribe({
 				next: (data) => {
-					this.closeModal();
 					this.persona.proyectos.push(data);
+					this.closeModal();
+					this.toastr.success('Proyecto agregado correctamente');
 				},
 				error: (e) => {
-					console.log(e)
+					//console.log(e)
 					this.closeModal();
+					this.toastr.error('Ocurrió un error inesperado');
 				}
 			});
 		}

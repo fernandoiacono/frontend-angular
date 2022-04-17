@@ -1,8 +1,11 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { HabilidadModel } from 'src/app/models/Habilidad';
 import { PersonaModel } from 'src/app/models/Persona';
 import { HabilidadService } from 'src/app/services/habilidad.service';
 import { ModalService } from 'src/app/services/modal.service';
+/*SweetAlert 2*/
+import Swal from 'sweetalert2'
 
 @Component({
 	selector: 'app-habilidad-item',
@@ -19,7 +22,9 @@ export class HabilidadItemComponent implements OnInit, AfterViewInit {
 	@ViewChild('countup') numeroPorcentaje: any;
 	@ViewChild('circle') barraPorcentaje: any;
 
-	constructor(private modalService: ModalService, private habilidadService: HabilidadService) { }
+	constructor(private modalService: ModalService,
+				private habilidadService: HabilidadService,
+				private toastr: ToastrService) { }
 
 	ngOnInit(): void {
 	}
@@ -70,17 +75,36 @@ export class HabilidadItemComponent implements OnInit, AfterViewInit {
 		this.modalService.$modalHabilidad.emit(true);
 	}
 
+	deleteDialog(id: number): void {
+		Swal.fire({
+			title: 'Atención!',
+			text: '¿Esta serguro de eliminar este registro?',
+			icon: 'question',
+			confirmButtonText: 'Sí',
+			denyButtonText: 'No',
+			showDenyButton: true
+		}).then((result) => {
+			if (result.isConfirmed) {
+				this.deleteItem(id);
+			} else if (result.isDenied) {
+				return;
+			}
+		})
+	}
+
 	deleteItem(id: number): void {
 		this.habilidadService.deleteHabilidad(this.persona.id!, id).subscribe({
 			next: res => {
 				if (res.code == 1) {
 					let index = this.persona.habilidades.indexOf(this.persona.habilidades.find(elem => elem.id === id)!);
 					this.persona.habilidades.splice(index, 1)
-					alert(res.msg);
+					//alert(res.msg);
+					this.toastr.success(res.msg);
 				}
 			},
 			error: e => {
-				console.log(e);
+				//console.log(e);
+				this.toastr.error('Ocurrió un error inesperado');
 			}
 		});
 	}
