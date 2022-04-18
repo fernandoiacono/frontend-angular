@@ -24,8 +24,11 @@
                 </div>
             </div>
             <div class="archivo-grp">
-                <input type="file" name="file" id="file" class="file-input">
-                <label for="file" class="form-label-file">Agregar Logo</label>
+                <div *ngIf="(action === 'Agregar' && previewImageUrl) || (action === 'Modificar' && previewImageUrl !== '')">
+                    <img [src]="previewImageUrl" alt="" class="image-preview">
+                </div>
+                <input type="file" (change)="onFileSelect($event)" name="file" id="file" class="file-input" accept=".png, .jpg, .jpeg">
+                <label for="file" class="form-label-file" #labelImagen>{{ action }} Logo</label>
             </div>
             <button class="modal-submit-btn" [disabled]="!form.valid">{{ action }}</button>
             <input type="hidden" id="hidHabilidad" value="1">

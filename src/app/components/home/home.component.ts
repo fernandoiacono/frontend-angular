@@ -93,8 +93,8 @@ export class HomeComponent implements OnInit {
 			this.personaHabilidades = this.persona.habilidades;//.sort(this.sortArray);
 			this.personaProyectos = this.persona.proyectos;//.sort(this.sortArray);
 			//this.fotoUrl = '/assets/img/' + this.persona.file_type;
-			this.fotoUrl = `${environment.personaImgBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
-			this.proyectoBaseUrl = environment.proyImgBaseUrl + this.persona.id! + '/proyecto/';
+			this.fotoUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
+			this.proyectoBaseUrl = environment.downloadImageBaseUrl + this.persona.id! + '/proyecto/';
 		});
 	}
 

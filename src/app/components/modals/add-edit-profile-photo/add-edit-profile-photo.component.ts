@@ -41,7 +41,7 @@ export class AddEditProfilePhotoComponent implements OnInit {
 		this.modalService.$modalPersonaData.subscribe(value => {
 			this.persona = value;
 			if(this.persona.file_type !== '' && this.persona.file_type !== null) {
-				this.previewImageUrl = `${environment.proyImgBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
+				this.previewImageUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
 			}
 		});
 
@@ -72,7 +72,7 @@ export class AddEditProfilePhotoComponent implements OnInit {
 		this.personaService.updateProfilePhoto(this.persona.id!, formData).subscribe({
 			next: res => {
 				this.persona = res;
-				this.previewImageUrl = `${environment.proyImgBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
+				this.previewImageUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
 				this.modalService.$modalPersonaProfilePhoto.emit(this.previewImageUrl);
 				this.modalService.$modalPersonaData.emit(this.persona);
 				this.toastr.success('Foto de perfil acualizada correctamente');

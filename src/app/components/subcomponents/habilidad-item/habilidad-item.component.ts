@@ -4,6 +4,7 @@ import { HabilidadModel } from 'src/app/models/Habilidad';
 import { PersonaModel } from 'src/app/models/Persona';
 import { HabilidadService } from 'src/app/services/habilidad.service';
 import { ModalService } from 'src/app/services/modal.service';
+import { environment } from 'src/environments/environment';
 /*SweetAlert 2*/
 import Swal from 'sweetalert2'
 
@@ -18,6 +19,7 @@ export class HabilidadItemComponent implements OnInit, AfterViewInit {
 	@Input() userLoggedIn: boolean = false;
 	@Input() persona: PersonaModel = new PersonaModel();
 	action: string = '';
+	downloadImageBaseUrl: string = environment.downloadImageBaseUrl;
 	
 	@ViewChild('countup') numeroPorcentaje: any;
 	@ViewChild('circle') barraPorcentaje: any;

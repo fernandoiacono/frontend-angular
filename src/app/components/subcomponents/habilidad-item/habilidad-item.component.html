@@ -17,7 +17,9 @@
         </svg>
     </div>
     <div class="percent-logo">
-        <img [src]="'/assets/img/logos/' + habilidad.url_imagen" [alt]="habilidad.url_imagen.split('.')[0]">
+        <!-- <img [src]="'/assets/img/logos/' + habilidad.file_type" [alt]="habilidad.nombre"> -->
+        <img *ngIf="habilidad.file_type != ''" [src]="downloadImageBaseUrl + persona.id + '/habilidad/' + habilidad.id + '/downloadImage/' + habilidad.file_type" [alt]="habilidad.nombre">
+        <img *ngIf="habilidad.file_type == ''" src="../../../assets/img/proy/placeholder.png">
         <div class="percentage-txt">
             <span #countup>{{ habilidad.porcentaje }}</span>
             <span>%</span>

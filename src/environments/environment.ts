@@ -7,8 +7,7 @@ export const environment = {
   baseApiUrl: 'http://localhost:8080/api',
   baseAuthUrl: 'http://localhost:8080/api/auth',
   particlesUrl: 'http://localhost:4200/assets/json/partOptions.json',
-  proyImgBaseUrl: 'http://localhost:8080/api/persona/',
-  personaImgBaseUrl: 'http://localhost:8080/api/persona/'
+  downloadImageBaseUrl: 'http://localhost:8080/api/persona/',
 };
 
 /*

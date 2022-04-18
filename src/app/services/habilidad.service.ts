@@ -22,7 +22,7 @@ export class HabilidadService {
 		return this._httpClient.get<HabilidadModel>(`${this.baseUrl}/persona/${personaId}/habilidad/${id}`);
 	}
 
-	createHabilidad(personaId: number, habilidad: HabilidadModel): Observable<HabilidadModel> {
+	createHabilidad(personaId: number, formData: FormData): Observable<HabilidadModel> {
 		const token: string | null = localStorage.getItem('token');
 
 		let res: any = {
@@ -34,11 +34,11 @@ export class HabilidadService {
 			return res;
 		}
 
-		const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`).set('Content-Type', 'application/json');
-		return this._httpClient.post<HabilidadModel>(`${this.baseUrl}/persona/${personaId}/habilidad/`, habilidad, { headers: headers });
+		const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);//.set('Content-Type', 'application/json');
+		return this._httpClient.post<HabilidadModel>(`${this.baseUrl}/persona/${personaId}/habilidad/`, formData, { headers: headers });
 	}
 
-	updateHabilidad(personaId: number, id: number, habilidad: HabilidadModel): Observable<HabilidadModel> {
+	updateHabilidad(personaId: number, id: number, formData: FormData): Observable<HabilidadModel> {
 		const token: string | null = localStorage.getItem('token');
 
 		let res: any = {
@@ -50,8 +50,8 @@ export class HabilidadService {
 			return res;
 		}
 
-		const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`).set('Content-Type', 'application/json');
-		return this._httpClient.put<HabilidadModel>(`${this.baseUrl}/persona/${personaId}/habilidad/${id}`, habilidad, { headers: headers });
+		const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);//.set('Content-Type', 'application/json');
+		return this._httpClient.post<HabilidadModel>(`${this.baseUrl}/persona/${personaId}/habilidad/${id}`, formData, { headers: headers });
 	}
 
 	deleteHabilidad(personaId: number, id: number): Observable<GenericResponseModel> {

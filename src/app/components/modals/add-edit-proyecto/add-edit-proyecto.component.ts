@@ -83,7 +83,7 @@ export class AddEditProyectoComponent implements OnInit {
 			});
 
 			if (this.action === 'Modificar' && this.proyecto.file_type !== '') {
-				this.previewImageUrl = environment.proyImgBaseUrl + this.persona.id! + '/proyecto/' + this.proyecto.id + '/dowloadImage/' + this.proyecto.id + '.' + this.proyecto.file_type;
+				this.previewImageUrl = environment.downloadImageBaseUrl + this.persona.id! + '/proyecto/' + this.proyecto.id + '/dowloadImage/' + this.proyecto.id + '.' + this.proyecto.file_type;
 			} else {
 				this.fileToUpload = new File([], '');
 				this.form.patchValue({

@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { HabilidadModel } from 'src/app/models/Habilidad';
 import { PersonaModel } from 'src/app/models/Persona';
@@ -21,11 +22,16 @@ export class AddEditHabilidadComponent implements OnInit {
 	showBody: boolean = false;
 	loadingState: boolean = false;
 	form: FormGroup;
+	previewImageUrl: string = '';
+	fileToUpload: File = new File([], '');
+
+	@ViewChild('labelImagen') labelImagen: any;
 
 	constructor(private modalService: ModalService,
 				private habilidadService: HabilidadService,
 				private fb: FormBuilder,
-				private toastr: ToastrService) {
+				private toastr: ToastrService,
+				private sanitizer: DomSanitizer,) {
 		this.form = this.fb.group({
 			nombre: ['', Validators.required],
 			porcentaje: ['', Validators.required],
@@ -56,17 +62,19 @@ export class AddEditHabilidadComponent implements OnInit {
 
 		this.modalService.$modalHabilidadData.subscribe(value => {
 			this.form.reset();
+			this.previewImageUrl = '';
+			this.fileToUpload = new File([], '');
 			
 			this.habilidad.id = value.id;
 			this.habilidad.nombre = value.nombre;
 			this.habilidad.porcentaje = value.porcentaje;
-			this.habilidad.url_imagen = value.url_imagen;
+			this.habilidad.file_type = value.file_type;
 			this.habilidad.orden = value.orden;
 			
 			this.form.patchValue({
 				nombre: value.nombre,
 				porcentaje: value.porcentaje,
-				url_imagen: value.url_imagen
+				url_imagen: value.file_type
 			});
 		});
 	
@@ -78,17 +86,33 @@ export class AddEditHabilidadComponent implements OnInit {
 		
 		const nombre = this.form.value.nombre;
 		const porcentaje = this.form.value.porcentaje;
+		const orden = this.habilidad.orden.toString();
 
 		this.habilidad.nombre = nombre;
 		this.habilidad.porcentaje = porcentaje;
 
+		let fileType = '';
+
+		if(this.fileToUpload.name != '') {
+			fileType = this.fileToUpload.name.substring(this.fileToUpload.name.lastIndexOf('.') + 1, this.fileToUpload.name.length);
+			fileType = fileType.toLowerCase();
+		}
+
 		if(this.action == 'Modificar') {
-			this.habilidadService.updateHabilidad(this.persona.id!, this.habilidad.id!,this.habilidad).subscribe({
+			
+			const formData = new FormData();
+			formData.append('file', this.fileToUpload);
+			formData.append('nombre', nombre);
+			formData.append('porcentaje', porcentaje);
+			formData.append('file_type', fileType);
+			formData.append('orden', orden);
+			
+			this.habilidadService.updateHabilidad(this.persona.id!, this.habilidad.id!, formData).subscribe({
 				next: (data) => {
 					const index : any = this.persona.habilidades.indexOf(this.persona.habilidades.find(elem => elem.id == this.habilidad.id)!);
 					this.persona.habilidades[index] = data;
 					this.closeModal();
-					this.toastr.success('Experiencia laboral acualizada correctamente');
+					this.toastr.success('Habilidad acualizada correctamente');
 				},
 				error: (e) => { 
 					//console.log(e);
@@ -97,7 +121,6 @@ export class AddEditHabilidadComponent implements OnInit {
 				}
 			});
 		} else {
-			//this.habilidad.orden = this.persona.habilidades.length;
 
 			let auxOrden : any = [];
 			this.persona.habilidades.map(elem => {
@@ -106,13 +129,18 @@ export class AddEditHabilidadComponent implements OnInit {
 
 			let max: number = Math.max(...auxOrden);
 
-			this.habilidad.orden = max + 1;
+			const formData = new FormData();
+			formData.append('file', this.fileToUpload);
+			formData.append('nombre', nombre);
+			formData.append('porcentaje', porcentaje);
+			formData.append('file_type', fileType);
+			formData.append('orden', (max + 1).toString());
 
-			this.habilidadService.createHabilidad(this.persona.id!, this.habilidad).subscribe({
+			this.habilidadService.createHabilidad(this.persona.id!, formData).subscribe({
 				next: (data) => {
 					this.persona.habilidades.push(data);
 					this.closeModal();
-					this.toastr.success('Experiencia laboral agregada correctamente');
+					this.toastr.success('Habilidad agregada correctamente');
 				},
 				error: (e) => {
 					//console.log(e)
@@ -122,6 +150,40 @@ export class AddEditHabilidadComponent implements OnInit {
 			});
 		}
 	}
+	
+	onFileSelect(event: any): any {
+		if (event.target.files.length > 0) {
+			this.fileToUpload = event.target.files[0];
+			this.extraerBase64(this.fileToUpload).then((imagen: any) => {
+				this.previewImageUrl = imagen.base;
+			});
+			this.labelImagen.nativeElement.innerText = event.target.files[0].name;
+		}
+	}
+
+	extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {
+		try {
+			const unsafeImg = window.URL.createObjectURL($event);
+			const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
+			const reader = new FileReader();
+			reader.readAsDataURL($event);
+			reader.onload = () => {
+				resolve({
+					base: reader.result
+				});
+			};
+			reader.onerror = error => {
+				resolve({
+					base: null
+				});
+			};
+		} catch (e) {
+			reject({
+				base: null
+			});
+			//return null
+		}
+	});
 
 	closeModal(): void {
 		this.modalService.$modalHabilidad.emit(false);
