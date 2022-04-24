@@ -3,8 +3,8 @@
 /*-----------------------------------------------------------------------------------------------*/
 
 .edit-btn, .delete-btn {
-    width: 2.5vw;
-    height: 2.5vw;
+    width: 2.25vw;
+    height: 2.25vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,13 +52,13 @@
 @media screen and (max-width: 1200px) and (orientation: landscape) {
 
     .edit-btn, .delete-btn {
-        width: 3.5vw;
-        height: 3.5vw;
+        width: 1.75vw;
+        height: 1.75vw;
     }
 
     .edit-btn-small, .delete-btn-small {
-        width: 2.5vw;
-        height: 2.5vw;
+        width: 1.5vw;
+        height: 1.5vw;
     }
 }
 

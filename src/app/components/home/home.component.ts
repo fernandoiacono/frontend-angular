@@ -62,7 +62,6 @@ export class HomeComponent implements OnInit {
 			if(value !== '' && value !== null && value !== undefined) {
 				this.fotoUrl = value;
 				this.profilePhoto.nativeElement.src = value;
-				console.log(this.fotoUrl);
 			} else if (value === '') {
 				this.fotoUrl = '';
 			}
@@ -92,7 +91,6 @@ export class HomeComponent implements OnInit {
 			this.personaExperienciaLaboral = this.persona.experiencia_laboral;//.sort(this.sortArray);
 			this.personaHabilidades = this.persona.habilidades;//.sort(this.sortArray);
 			this.personaProyectos = this.persona.proyectos;//.sort(this.sortArray);
-			//this.fotoUrl = '/assets/img/' + this.persona.file_type;
 			this.fotoUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
 			this.proyectoBaseUrl = environment.downloadImageBaseUrl + this.persona.id! + '/proyecto/';
 		});

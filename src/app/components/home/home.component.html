@@ -12,8 +12,6 @@
                             <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('ProfilePhoto','edit', persona)"></app-edit-btn>
                         </div>
                         <div class="photo-img-overflow-hidden">
-                            <!-- <img src="../../../assets/img/user.png" alt="Foto del usuario" [ngClass]="persona.file_type !== '' ? 'display-none': ''">
-                            <img [src]="fotoUrl" alt="Foto del usuario" [ngClass]="persona.file_type === '' ? 'display-none': ''" #profilePhoto> -->
                             <img src="../../../assets/img/user.png" alt="Foto del usuario" *ngIf="persona.file_type === '' || persona.file_type === null">
                             <img [src]="fotoUrl" alt="Foto del usuario" *ngIf="persona.file_type !== '' && persona.file_type !== null">
                         </div>

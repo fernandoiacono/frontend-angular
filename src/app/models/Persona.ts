@@ -7,9 +7,9 @@ export class PersonaModel {
     id?: number;
     nombre: string = '';
     apellido: string = '';
-    domicilio: string = '';
+    //domicilio: string = '';
     fecha_nac: string = '';
-    telefono: string = '';
+    //telefono: string = '';
     correo: string = '';
     descripcion: string = '';
     sobre_mi: string = '';
