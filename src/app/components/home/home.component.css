@@ -145,6 +145,10 @@
     z-index: 100;
 }
 
+.photo-hide {
+    display: none !important;
+}
+
 @media only screen and (max-width: 1200px)  and (orientation: portrait) {
  
     .div-right {
@@ -414,7 +418,7 @@
     }
 
     .experiencia-laboral-descripcion {
-        width: 90%;
+        width: 80%;
     }
 }
 
@@ -588,6 +592,10 @@
     .educacion-section ul li {
         width: 100%;
     }
+
+    .educacion-section ul li p {
+        width: 75%;
+    }
 }
 
 @media only screen and (max-width: 1200px)  and (orientation: landscape) {
@@ -731,11 +739,7 @@
     }
     
     .proyectos-ul li p {
-        font-size: 0.85rem;
-    }
-    
-    .proy-laautopista-img {
-        width: 10rem;
+        font-size: 0.78rem;
     }
 }
 
@@ -758,23 +762,11 @@
     .proyectos-ul-li-a {
         padding: 0 1rem;
     }
-    
-    .proy-laautopista-img {
-        width: 11rem;
-    }
-
-    .proy-malvinas-img {
-        height: 120px;
-    }
 }
 
 @media screen and (max-width: 768px) and (orientation: portrait) {
     .proyectos-ul {
         width: 98%;
-    }
-    
-    .proyectos-img-container img {
-        min-width: 12vh;
     }
 }
 
@@ -814,18 +806,6 @@
     .proyectos-ul-li-a {
         padding: 0 1rem;
     }
-    
-    .proy-laautopista-img {
-        width: 8rem;
-    }
-
-    .proy-malvinas-img {
-        height: 90px;
-    }
-
-    .proy-lab-img {
-        height: 70px;
-    }
 }
 
 /*-----------------------------------------------------------------------------------------------*/
@@ -834,7 +814,6 @@
 
 .add-btn-container {
     width: 100%;
-    /* padding: 2vw 4vw; */
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
@@ -842,15 +821,30 @@
     top: 0;
 }
 
-.edit-btn-intro-container {
-    position: absolute;
-    top: 0;
-    right: -4.25vw;
-    height: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+.edit-intro-btn {
+    position: relative;
+    z-index: 100;
+    border: none;
+    background-color: var(--edit-btn);
+    color: whitesmoke;
+    padding: 1vw 1.5vw;
+    border-radius: 0.25rem;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1rem, 0.90vw, 1.2rem);
+    cursor: pointer;
+    margin-top: 2vh;
+    transition: background-color 0.35s ease-in-out;
+}
+
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+    .edit-intro-btn {
+        padding: 1rem 1.5rem;
+    }
+}
+
+.edit-intro-btn:hover {
+    background-color: var(--edit-btn-hover);
 }
 
 .edit-delete-btn-grp {
@@ -875,19 +869,7 @@
     z-index: 1000;
 }
 
-@media screen and (max-width: 1200px) and (orientation: landscape) {
-    .edit-btn-intro-container {
-        right: 0;
-        padding-right: 1vw;
-    }
-}
-
 @media screen and (max-width: 1024px) and (orientation: portrait) {
-    .edit-btn-intro-container {
-        right: 0;
-        padding-right: 1vw;
-    }
-
     .edit-delete-btn-grp {
         padding: 0 0.5rem;
         justify-content: center;
@@ -897,13 +879,6 @@
     .edit-delete-btn-grp-small {
         padding: 0.5rem 0.25rem;
         flex-direction: column;
-    }
-}
-
-@media screen and (max-height: 500px) and (orientation: landscape) {
-    .edit-btn-intro-container {
-        right: 0;
-        padding-right: 1vw;
     }
 }
 

@@ -1,5 +1,8 @@
 <!-- NAVBAR -->
 <app-navbar [github_link]="persona.github_link" [facebook_link]="persona.facebook_link"></app-navbar>
+
+<!-- LOADER -->
+<app-loader *ngIf="loaderState"></app-loader>
 <!-- BODY -->
 <main>
     <section class="intro-section" id="introSection">
@@ -12,8 +15,10 @@
                             <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('ProfilePhoto','edit', persona)"></app-edit-btn>
                         </div>
                         <div class="photo-img-overflow-hidden">
-                            <img src="../../../assets/img/user.png" alt="Foto del usuario" *ngIf="persona.file_type === '' || persona.file_type === null">
-                            <img [src]="fotoUrl" alt="Foto del usuario" *ngIf="persona.file_type !== '' && persona.file_type !== null">
+                            <!-- <img src="../../../assets/img/user.png" alt="Foto del usuario" *ngIf="persona.extension === '' || persona.extension === null">
+                            <img [src]="fotoUrl" alt="Foto del usuario" *ngIf="persona.extension !== '' && persona.extension !== null" #profilePhoto> -->
+                            <img src="../../../assets/img/user.png" alt="Foto del usuario" [ngClass]="persona.extension === '' || persona.extension === null ? '' : 'photo-hide'">
+                            <img [src]="fotoUrl" alt="Foto del usuario" [ngClass]="persona.extension !== '' && persona.extension !== null ? '' : 'photo-hide'" #profilePhoto>
                         </div>
                     </div>
                 </div>
@@ -24,29 +29,34 @@
                             <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('ProfilePhoto','edit', persona)"></app-edit-btn>
                         </div>
                         <div class="photo-img-overflow-hidden">
-                            <img src="../../../assets/img/user.png" alt="Foto del usuario" *ngIf="persona.file_type === '' || persona.file_type === null">
-                            <img [src]="fotoUrl" alt="Foto del usuario" *ngIf="persona.file_type !== '' && persona.file_type !== null">
+                            <!-- <img src="../../../assets/img/user.png" alt="Foto del usuario" *ngIf="persona.extension === '' || persona.extension === null">
+                            <img [src]="fotoUrl" alt="Foto del usuario" *ngIf="persona.extension !== '' && persona.extension !== null" #profilePhoto> -->
+                            <img src="../../../assets/img/user.png" alt="Foto del usuario" [ngClass]="persona.extension === '' || persona.extension === null ? '' : 'photo-hide'">
+                            <img [src]="fotoUrl" alt="Foto del usuario" [ngClass]="persona.extension !== '' && persona.extension !== null ? '' : 'photo-hide'" #profilePhoto>
                         </div>
                     </div>
                     <h1>
                         {{persona.nombre}} {{persona.apellido}}
-                        <div class="edit-btn-intro-container">
+                        <!-- <div class="edit-btn-intro-container">
                             <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Persona','Edit', persona)"></app-edit-btn>
-                        </div>
+                        </div> -->
                     </h1>
                     <h2>
                         {{persona.descripcion}}
-                        <div class="edit-btn-intro-container">
+                        <!-- <div class="edit-btn-intro-container">
                             <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Persona','Edit', persona)"></app-edit-btn>
-                        </div>
+                        </div> -->
                     </h2>
                     <div class="p-container">
                         <p>
                             {{persona.sobre_mi}}
                         </p>
-                        <div class="edit-btn-intro-container">
+                        <!-- <div class="edit-btn-intro-container">
                             <app-edit-btn *ngIf="userLoggedIn" (click)="showModal('Persona','Edit', persona)"></app-edit-btn>
-                        </div>
+                        </div> -->
+                    </div>
+                    <div>
+                        <button class="edit-intro-btn" *ngIf="userLoggedIn" (click)="showModal('Persona','Edit', persona)">Editar Datos</button>
                     </div>
                 </div>
             </div>
@@ -138,8 +148,8 @@
                 </div>
                 <a [href]="proyecto.link" class="proyectos-ul-li-a" target="_blank">
                     <div class="proyectos-img-container">
-                        <img *ngIf="proyecto.file_type != ''" [src]="proyectoBaseUrl + proyecto.id + '/dowloadImage/' + proyecto.id + '.' + proyecto.file_type" [alt]="proyecto.nombre">
-                        <img *ngIf="proyecto.file_type == ''" src="../../../assets/img/proy/placeholder.png">
+                        <img *ngIf="proyecto.extension != ''" [src]="proyectoBaseUrl + proyecto.id + '/downloadImage/' + proyecto.id + '.' + proyecto.extension" [alt]="proyecto.nombre">
+                        <img *ngIf="proyecto.extension == ''" src="../../../assets/img/proy/placeholder.png">
                     </div>
                     <div class="proyectos-txt-container">
                         <h3>{{ proyecto.nombre }}</h3>
@@ -154,9 +164,9 @@
 <app-footer [nombre]="persona.nombre + ' ' + persona.apellido"></app-footer>
 
 <!-- MODALS -->
-<app-add-edit-persona [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-persona>
-<app-add-edit-profile-photo [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-profile-photo>
-<app-add-edit-educacion [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-educacion>
-<app-add-edit-explaboral [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-explaboral>
-<app-add-edit-habilidad [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-habilidad>
-<app-add-edit-proyecto [userLoggedIn]="userLoggedIn" [persona]="persona"></app-add-edit-proyecto>
+<app-add-edit-persona [userLoggedIn]="userLoggedIn"></app-add-edit-persona>
+<app-add-edit-profile-photo [userLoggedIn]="userLoggedIn"></app-add-edit-profile-photo>
+<app-add-edit-educacion [userLoggedIn]="userLoggedIn"></app-add-edit-educacion>
+<app-add-edit-explaboral [userLoggedIn]="userLoggedIn"></app-add-edit-explaboral>
+<app-add-edit-habilidad [userLoggedIn]="userLoggedIn"></app-add-edit-habilidad>
+<app-add-edit-proyecto [userLoggedIn]="userLoggedIn"></app-add-edit-proyecto>

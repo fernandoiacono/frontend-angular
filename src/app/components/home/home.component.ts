@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 /*Models*/
 import { EducacionModel } from 'src/app/models/Educacion';
@@ -19,6 +19,7 @@ import { ModalService } from 'src/app/services/modal.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { ProyectoService } from 'src/app/services/proyecto.service';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
 	selector: 'app-home',
@@ -30,7 +31,6 @@ export class HomeComponent implements OnInit {
 
 	id = "tsparticles";
 	particlesUrl = environment.particlesUrl;
-
 	persona: PersonaModel = new PersonaModel();
 	personaEducacion: EducacionModel[] = [];
 	personaExperienciaLaboral: ExperienciaLaboralModel[] = [];
@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
 	fotoUrl: string = '';
 	proyectoBaseUrl: string = '';
 	action: string = '';
+	loaderState: boolean = true;
 
 	@ViewChild('profilePhoto') profilePhoto : any;
 
@@ -52,12 +53,18 @@ export class HomeComponent implements OnInit {
 		private proyectoService: ProyectoService,
 		private authService: AuthService,
 		private modalService: ModalService,
+		private loaderService: LoaderService,
 		private toastr: ToastrService) { }
 
 	ngOnInit(): void {
 		this.getPersonaById(1);
+		
 		this.userLoggedIn = this.checkAuthentication();
 		
+		this.modalService.$modalPersonaData.subscribe(value => {
+			this.persona = value;
+		});
+
 		this.modalService.$modalPersonaProfilePhoto.subscribe(value => {
 			if(value !== '' && value !== null && value !== undefined) {
 				this.fotoUrl = value;
@@ -67,8 +74,10 @@ export class HomeComponent implements OnInit {
 			}
 		});
 
-		this.modalService.$modalPersonaData.subscribe(value => {
-			this.persona = value;
+		this.loaderService.$loaderState.subscribe(value => {
+			if(!value) {
+				this.loaderState = value;
+			}
 		});
 
 		// this.authService.$authEmitter.subscribe(value => {
@@ -91,8 +100,10 @@ export class HomeComponent implements OnInit {
 			this.personaExperienciaLaboral = this.persona.experiencia_laboral;//.sort(this.sortArray);
 			this.personaHabilidades = this.persona.habilidades;//.sort(this.sortArray);
 			this.personaProyectos = this.persona.proyectos;//.sort(this.sortArray);
-			this.fotoUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
+			if(this.persona.extension !== '' && this.persona.extension !== null)
+				this.fotoUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.extension}`;
 			this.proyectoBaseUrl = environment.downloadImageBaseUrl + this.persona.id! + '/proyecto/';
+			this.loaderService.$showLoader.emit(false);
 		});
 	}
 
@@ -111,9 +122,11 @@ export class HomeComponent implements OnInit {
 	showModal(modal: string, action: string, obj?: any): void {
 		switch (modal) {
 			case 'Persona':
+				this.modalService.$modalPersonaData.emit(this.persona);
 				this.modalService.$modalPersona.emit(true);
 				break;
 			case 'Educacion':
+				this.modalService.$modalPersonaData.emit(this.persona);
 				this.action = action;
 				this.modalService.$modalEducacionAction.emit(action)
 				if (action === 'edit')
@@ -125,6 +138,7 @@ export class HomeComponent implements OnInit {
 				this.modalService.$modalEducacion.emit(true);
 				break;
 			case 'ExpLaboral':
+				this.modalService.$modalPersonaData.emit(this.persona);
 				this.action = action;
 				this.modalService.$modalExpLaboralAction.emit(action);
 				if (action === 'edit')
@@ -136,6 +150,7 @@ export class HomeComponent implements OnInit {
 				this.modalService.$modalExpLaboral.emit(true);
 				break;
 			case 'Habilidad':
+				this.modalService.$modalPersonaData.emit(this.persona);
 				this.action = action;
 				this.modalService.$modalHabilidadAction.emit(action);
 				if (action === 'edit')
@@ -147,6 +162,7 @@ export class HomeComponent implements OnInit {
 				this.modalService.$modalHabilidad.emit(true);
 				break;
 			case 'Proyecto':
+				this.modalService.$modalPersonaData.emit(this.persona);
 				this.action = action;
 				this.modalService.$modalProyectoAction.emit(action);
 				if (action === 'edit')
@@ -164,7 +180,7 @@ export class HomeComponent implements OnInit {
 		}
 	}
 
-
+	/*DELETE*/
 	deleteDialog(id: number, item: string): void {
 		Swal.fire({
 			title: 'Atención!',
@@ -182,7 +198,6 @@ export class HomeComponent implements OnInit {
 		})
 	}
 
-	/*DELETE*/
 	deleteItem(id: number, item: string): void {
 		switch (item) {
 			case 'Educacion':
@@ -220,6 +235,7 @@ export class HomeComponent implements OnInit {
 							let index = this.persona.proyectos.indexOf(this.persona.proyectos.find(elem => elem.id === id)!);
 							this.persona.proyectos.splice(index, 1)
 							this.toastr.success(res.msg);
+							// this.modalService.$modalPersonaData.emit(this.persona);
 						}
 					},
 					error: e => {

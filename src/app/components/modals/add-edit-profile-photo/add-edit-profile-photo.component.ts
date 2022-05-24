@@ -15,33 +15,27 @@ import { environment } from 'src/environments/environment';
 export class AddEditProfilePhotoComponent implements OnInit {
 
 	@Input() userLoggedIn: boolean = false;
-	@Input() persona: PersonaModel = new PersonaModel();
+	persona: PersonaModel = new PersonaModel();
 	showPhotoModal: boolean = false;
 	showBody: boolean = false;
 	loadingState: boolean = false;
-	//form: FormGroup;
 	previewImageUrl: string = '';
 	fileToUpload: File = new File([], '');
 	@ViewChild('labelImagen') labelImagen: any;
 	
-	constructor(/*private fb: FormBuilder,*/
-				private modalService: ModalService,
+	constructor(private modalService: ModalService,
 				private personaService: PersonaService,
 				private sanitizer: DomSanitizer,
-				private toastr: ToastrService) {
-		// this.form = this.fb.group({
-		// 	nombre: ['', Validators.required],
-		// 	porcentaje: ['', Validators.required],
-		// });
-	}
+				private toastr: ToastrService) {}
 
 	ngOnInit(): void {
-		this.fileToUpload = new File([], '');
-
 		this.modalService.$modalPersonaData.subscribe(value => {
 			this.persona = value;
-			if(this.persona.file_type !== '' && this.persona.file_type !== null) {
-				this.previewImageUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
+			if(this.persona.extension !== '' && this.persona.extension !== null) {
+				this.previewImageUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.extension}`;
+			} else {
+				this.previewImageUrl = '';
+				this.fileToUpload = new File([], '');
 			}
 		});
 
@@ -68,11 +62,22 @@ export class AddEditProfilePhotoComponent implements OnInit {
 
 		const formData = new FormData();
 		formData.append('file', this.fileToUpload);
+		
+		let fileType = '';
+
+		if(this.fileToUpload.name != '') {
+			fileType = this.fileToUpload.name.substring(this.fileToUpload.name.lastIndexOf('.') + 1, this.fileToUpload.name.length);
+			fileType = fileType.toLowerCase();
+		} else {
+			fileType = this.persona.extension;
+		}
+		
+		formData.append('extension', fileType);
 
 		this.personaService.updateProfilePhoto(this.persona.id!, formData).subscribe({
 			next: res => {
 				this.persona = res;
-				this.previewImageUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.file_type}`;
+				this.previewImageUrl = `${environment.downloadImageBaseUrl}${this.persona.id}/downloadProfileImage/${this.persona.extension}`;
 				this.modalService.$modalPersonaProfilePhoto.emit(this.previewImageUrl);
 				this.modalService.$modalPersonaData.emit(this.persona);
 				this.toastr.success('Foto de perfil acualizada correctamente');
@@ -127,7 +132,7 @@ export class AddEditProfilePhotoComponent implements OnInit {
 		this.personaService.deleteProfilePhoto(this.persona.id!).subscribe({
 			next: res => {
 				if (res.code == 1) {
-					this.persona.file_type = '';
+					this.persona.extension = '';
 					this.previewImageUrl = '';
 					this.modalService.$modalPersonaData.emit(this.persona);
 					this.modalService.$modalPersonaProfilePhoto.emit('');

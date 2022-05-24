@@ -24,6 +24,7 @@ import { AddEditExplaboralComponent } from './components/modals/add-edit-explabo
 import { AddEditHabilidadComponent } from './components/modals/add-edit-habilidad/add-edit-habilidad.component';
 import { AddEditProyectoComponent } from './components/modals/add-edit-proyecto/add-edit-proyecto.component';
 import { AddEditProfilePhotoComponent } from './components/modals/add-edit-profile-photo/add-edit-profile-photo.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
 	declarations: [
@@ -41,7 +42,8 @@ import { AddEditProfilePhotoComponent } from './components/modals/add-edit-profi
 		AddEditExplaboralComponent,
 		AddEditHabilidadComponent,
 		AddEditProyectoComponent,
-  AddEditProfilePhotoComponent
+  AddEditProfilePhotoComponent,
+  LoaderComponent
 	],
 	imports: [
 		BrowserModule,

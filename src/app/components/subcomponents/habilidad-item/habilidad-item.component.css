@@ -34,7 +34,7 @@
 
 .percentage-txt {
     font-size: 2rem;
-    margin-top: 0.5rem;
+    margin-top: 0.5vh;
 }
 
 .circular-chart {
@@ -70,6 +70,11 @@
     z-index: 1000;
 }
 
+.skill-name {
+    width: 100%;
+    text-align: center;
+}
+
 
 @media only screen and (max-width: 1024px) and (orientation:portrait) {
     
@@ -85,6 +90,7 @@
 
     .percentage-txt {
         font-size: 1.5rem;
+        margin-top: 0;
     }
 
     .circular-chart {
@@ -95,6 +101,12 @@
     .edit-delete-btn-grp-small {
         padding: 0.5rem 0.25rem;
         flex-direction: column;
+    }
+
+    .skill-name {
+        width: 100%;
+        text-align: center;
+        font-size: 0.75rem;
     }
 }
 

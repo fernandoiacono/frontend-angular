@@ -14,7 +14,7 @@ import { ModalService } from 'src/app/services/modal.service';
 export class AddEditEducacionComponent implements OnInit {
 
     @Input() userLoggedIn: boolean = false;
-	@Input() persona: PersonaModel = new PersonaModel();
+	persona: PersonaModel = new PersonaModel();
     educacion: EducacionModel = new EducacionModel();
 	action: string = '';
     showEducacionModal: boolean = false;
@@ -70,6 +70,10 @@ export class AddEditEducacionComponent implements OnInit {
 				titulo: value.titulo
 			});
 		});
+
+		this.modalService.$modalPersonaData.subscribe(value => {
+			this.persona = value;
+		});
 	}
 
 	onSubmit(): void {
@@ -91,6 +95,7 @@ export class AddEditEducacionComponent implements OnInit {
 					this.persona.educacion[index] = data;
 					this.closeModal();
 					this.toastr.success('Educación acualizada correctamente');
+					this.modalService.$modalPersonaData.emit(this.persona);
 				},
 				error: (e) => { 
 					//console.log(e);
@@ -115,6 +120,7 @@ export class AddEditEducacionComponent implements OnInit {
 					this.persona.educacion.push(data);
 					this.closeModal();
 					this.toastr.success('Educación agregada correctamente');
+					this.modalService.$modalPersonaData.emit(this.persona);
 				},
 				error: (e) => {
 					//console.log(e)

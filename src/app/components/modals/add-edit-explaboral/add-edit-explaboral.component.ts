@@ -18,7 +18,7 @@ import { __values } from 'tslib';
 export class AddEditExplaboralComponent implements OnInit {
 
 	@Input() userLoggedIn: boolean = false;
-	@Input() persona: PersonaModel = new PersonaModel();
+	persona: PersonaModel = new PersonaModel();
 	explaboral: ExperienciaLaboralModel = new ExperienciaLaboralModel();
 	action: string = '';
 	showExpLaboralModal: boolean = false;
@@ -109,10 +109,9 @@ export class AddEditExplaboralComponent implements OnInit {
 			}
 		});
 
-		// this.modalService.$modalPersonaData.subscribe(value => {
-		// 	this.persona = value;
-		// 	console.log('ExpLaboral', this.persona);
-		// });
+		this.modalService.$modalPersonaData.subscribe(value => {
+			this.persona = value;
+		});
 	}
 
 	onSubmit(): void {
@@ -133,11 +132,11 @@ export class AddEditExplaboralComponent implements OnInit {
 		this.explaboral.nombre_empresa = nombre_empresa;
 		this.explaboral.descripcion = descripcion;
 		this.explaboral.es_trabajo_actual = es_trabajo_actual;
-		this.explaboral.fecha_inicio = new Date(fecha_inicio).toISOString().replace('Z', '-03:00');
+		this.explaboral.fecha_inicio = new Date(fecha_inicio).toISOString();//.replace('Z', '00:00');
 		this.explaboral.tipo_empleo = auxTipoEmpleo;
 
 		if(this.action == 'Modificar') {
-			this.explaboral.fecha_fin = new Date(fecha_fin).toISOString().replace('Z', '-03:00');
+			this.explaboral.fecha_fin = new Date(fecha_fin).toISOString();//.replace('Z', '+00:00');
 			
 			this.experienciaLaboralService.updateExperienciaLaboral(this.persona.id!, this.explaboral.id!,this.explaboral).subscribe({
 				next: (data) => {
@@ -145,6 +144,7 @@ export class AddEditExplaboralComponent implements OnInit {
 					this.persona.experiencia_laboral[index] = data;
 					this.closeModal();
 					this.toastr.success('Experiencia laboral acualizada correctamente');
+					this.modalService.$modalPersonaData.emit(this.persona);
 				},
 				error: (e) => { 
 					this.closeModal();
@@ -162,13 +162,14 @@ export class AddEditExplaboralComponent implements OnInit {
 
 			this.explaboral.orden = max + 1;
 			
-			this.explaboral.fecha_fin = new Date(Date.now()).toISOString().replace('Z', '+00:00');
+			this.explaboral.fecha_fin = new Date(Date.now()).toISOString();//.replace('Z', '+00:00');
 
 			this.experienciaLaboralService.createExperienciaLaboral(this.persona.id!, this.explaboral).subscribe({
 				next: (data) => {
 					this.persona.experiencia_laboral.push(data);
 					this.closeModal();
 					this.toastr.success('Experiencia laboral agregada correctamente');
+					this.modalService.$modalPersonaData.emit(this.persona);
 				},
 				error: (e) => {
 					//console.log(e)

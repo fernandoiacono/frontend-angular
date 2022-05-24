@@ -13,10 +13,11 @@ import { environment } from 'src/environments/environment';
 	templateUrl: './add-edit-proyecto.component.html',
 	styleUrls: ['./add-edit-proyecto.component.css']
 })
+
 export class AddEditProyectoComponent implements OnInit {
 
 	@Input() userLoggedIn: boolean = false;
-	@Input() persona: PersonaModel = new PersonaModel();
+	persona: PersonaModel = new PersonaModel();
 	proyecto: ProyectoModel = new ProyectoModel();
 	action: string = '';
 	showProyectoModal: boolean = false;
@@ -66,14 +67,14 @@ export class AddEditProyectoComponent implements OnInit {
 
 		this.modalService.$modalProyectoData.subscribe(value => {
 			this.form.reset();
-			
 			this.previewImageUrl = '';
+			this.fileToUpload = new File([], '');
 
 			this.proyecto.id = value.id;
 			this.proyecto.nombre = value.nombre;
 			this.proyecto.descripcion = value.descripcion;
 			this.proyecto.link = value.link;
-			this.proyecto.file_type = value.file_type;
+			this.proyecto.extension = value.extension;
 			this.proyecto.orden = value.orden;
 
 			this.form.patchValue({
@@ -82,15 +83,18 @@ export class AddEditProyectoComponent implements OnInit {
 				link: value.link
 			});
 
-			if (this.action === 'Modificar' && this.proyecto.file_type !== '') {
-				this.previewImageUrl = environment.downloadImageBaseUrl + this.persona.id! + '/proyecto/' + this.proyecto.id + '/dowloadImage/' + this.proyecto.id + '.' + this.proyecto.file_type;
+			if (this.action === 'Modificar' && this.proyecto.extension !== '') {
+				this.previewImageUrl = environment.downloadImageBaseUrl + this.persona.id! + '/proyecto/' + this.proyecto.id + '/downloadImage/' + this.proyecto.id + '.' + this.proyecto.extension;
 			} else {
 				this.fileToUpload = new File([], '');
 				this.form.patchValue({
 					file: this.fileToUpload
 				});
 			}
+		});
 
+		this.modalService.$modalPersonaData.subscribe(value => {
+			this.persona = value;
 		});
 	}
 
@@ -112,6 +116,8 @@ export class AddEditProyectoComponent implements OnInit {
 		if(this.fileToUpload.name != '') {
 			fileType = this.fileToUpload.name.substring(this.fileToUpload.name.lastIndexOf('.') + 1, this.fileToUpload.name.length);
 			fileType = fileType.toLowerCase();
+		} else {
+			fileType = this.proyecto.extension;
 		}
 
 		if (this.action == 'Modificar') {
@@ -119,7 +125,7 @@ export class AddEditProyectoComponent implements OnInit {
 			formData.append('file', this.fileToUpload);
 			formData.append('nombre', nombre);
 			formData.append('descripcion', descripcion);
-			formData.append('file_type', fileType);
+			formData.append('extension', fileType);
 			formData.append('orden', orden);
 			formData.append('link', link);
 
@@ -129,9 +135,9 @@ export class AddEditProyectoComponent implements OnInit {
 					this.persona.proyectos[index] = data;
 					this.closeModal();
 					this.toastr.success('Proyecto acualizado correctamente');
+					this.modalService.$modalPersonaData.emit(this.persona);
 				},
 				error: (e) => {
-					//console.log(e);
 					this.closeModal();
 					this.toastr.error('Ocurrió un error inesperado');
 				}
@@ -149,7 +155,7 @@ export class AddEditProyectoComponent implements OnInit {
 			formData.append('file', this.fileToUpload);
 			formData.append('nombre', nombre);
 			formData.append('descripcion', descripcion);
-			formData.append('file_type', fileType);
+			formData.append('extension', fileType);
 			formData.append('orden', (max + 1).toString());
 			formData.append('link', link);
 
@@ -158,9 +164,9 @@ export class AddEditProyectoComponent implements OnInit {
 					this.persona.proyectos.push(data);
 					this.closeModal();
 					this.toastr.success('Proyecto agregado correctamente');
+					this.modalService.$modalPersonaData.emit(this.persona);
 				},
 				error: (e) => {
-					//console.log(e)
 					this.closeModal();
 					this.toastr.error('Ocurrió un error inesperado');
 				}

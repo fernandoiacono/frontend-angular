@@ -2,6 +2,6 @@ export class HabilidadModel {
     id?: number;
     nombre: string = '';
     porcentaje: number = 0;
-    file_type: string = '';
+    extension: string = '';
     orden: number = 0;
 }

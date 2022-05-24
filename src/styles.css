@@ -5,8 +5,8 @@
     --skill-container-size: 20vh;
     --skill-logo-size: 3rem;
     --dark-grey: #212529;
-    --edit-btn: #02a102;
-    --edit-btn-hover: #007900;
+    --edit-btn: #6d63de;
+    --edit-btn-hover: #4a40b9;
     --input-font-size: clamp(0.75rem, 0.95rem, 1.05rem);
     --error-font-size: clamp(0.65rem, 0.85rem, 1rem);
 }

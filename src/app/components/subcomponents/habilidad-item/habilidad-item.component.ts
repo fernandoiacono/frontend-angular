@@ -29,6 +29,9 @@ export class HabilidadItemComponent implements OnInit, AfterViewInit {
 				private toastr: ToastrService) { }
 
 	ngOnInit(): void {
+		this.modalService.$modalPersonaData.subscribe(value => {
+			this.persona = value;
+		});
 	}
 
 	ngAfterViewInit(): void {
@@ -66,6 +69,7 @@ export class HabilidadItemComponent implements OnInit, AfterViewInit {
 	}
 
 	showModal(action: string, obj?: any): void {
+		this.modalService.$modalPersonaData.emit(this.persona);
 		this.action = action;
 		this.modalService.$modalHabilidadAction.emit(action)
 		if(action === 'edit')
@@ -100,8 +104,8 @@ export class HabilidadItemComponent implements OnInit, AfterViewInit {
 				if (res.code == 1) {
 					let index = this.persona.habilidades.indexOf(this.persona.habilidades.find(elem => elem.id === id)!);
 					this.persona.habilidades.splice(index, 1)
-					//alert(res.msg);
 					this.toastr.success(res.msg);
+					this.modalService.$modalPersonaData.emit(this.persona);
 				}
 			},
 			error: e => {

@@ -6,6 +6,7 @@ import { HabilidadModel } from 'src/app/models/Habilidad';
 import { PersonaModel } from 'src/app/models/Persona';
 import { HabilidadService } from 'src/app/services/habilidad.service';
 import { ModalService } from 'src/app/services/modal.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'app-add-edit-habilidad',
@@ -15,7 +16,7 @@ import { ModalService } from 'src/app/services/modal.service';
 export class AddEditHabilidadComponent implements OnInit {
 
 	@Input() userLoggedIn: boolean = false;
-	@Input() persona: PersonaModel = new PersonaModel();
+	persona: PersonaModel = new PersonaModel();
 	habilidad: HabilidadModel = new HabilidadModel();
 	action: string = '';
 	showHabilidadModal: boolean = false;
@@ -53,6 +54,10 @@ export class AddEditHabilidadComponent implements OnInit {
 			}
 		});
 
+		this.modalService.$modalPersonaData.subscribe(value => {
+			this.persona = value;
+		});
+
 		this.modalService.$modalHabilidadAction.subscribe(value => {
 			if(value == 'edit')
 				this.action = 'Modificar';
@@ -68,16 +73,26 @@ export class AddEditHabilidadComponent implements OnInit {
 			this.habilidad.id = value.id;
 			this.habilidad.nombre = value.nombre;
 			this.habilidad.porcentaje = value.porcentaje;
-			this.habilidad.file_type = value.file_type;
+			this.habilidad.extension = value.extension;
 			this.habilidad.orden = value.orden;
-			
+		
 			this.form.patchValue({
 				nombre: value.nombre,
 				porcentaje: value.porcentaje,
-				url_imagen: value.file_type
+				url_imagen: value.extension
 			});
+
+			if (this.action === 'Modificar' && this.habilidad.extension !== '') {
+				this.previewImageUrl = environment.downloadImageBaseUrl + this.persona.id! + '/habilidad/' + this.habilidad.id + '/downloadImage/' + this.habilidad.extension;
+			} else {
+				this.fileToUpload = new File([], '');
+				this.form.patchValue({
+					file: this.fileToUpload
+				});
+			}
 		});
 	
+
 	}
 
 	onSubmit(): void {
@@ -96,6 +111,8 @@ export class AddEditHabilidadComponent implements OnInit {
 		if(this.fileToUpload.name != '') {
 			fileType = this.fileToUpload.name.substring(this.fileToUpload.name.lastIndexOf('.') + 1, this.fileToUpload.name.length);
 			fileType = fileType.toLowerCase();
+		} else {
+			fileType = this.habilidad.extension;
 		}
 
 		if(this.action == 'Modificar') {
@@ -104,7 +121,7 @@ export class AddEditHabilidadComponent implements OnInit {
 			formData.append('file', this.fileToUpload);
 			formData.append('nombre', nombre);
 			formData.append('porcentaje', porcentaje);
-			formData.append('file_type', fileType);
+			formData.append('extension', fileType);
 			formData.append('orden', orden);
 			
 			this.habilidadService.updateHabilidad(this.persona.id!, this.habilidad.id!, formData).subscribe({
@@ -113,6 +130,7 @@ export class AddEditHabilidadComponent implements OnInit {
 					this.persona.habilidades[index] = data;
 					this.closeModal();
 					this.toastr.success('Habilidad acualizada correctamente');
+					this.modalService.$modalPersonaData.emit(this.persona);
 				},
 				error: (e) => { 
 					//console.log(e);
@@ -133,7 +151,7 @@ export class AddEditHabilidadComponent implements OnInit {
 			formData.append('file', this.fileToUpload);
 			formData.append('nombre', nombre);
 			formData.append('porcentaje', porcentaje);
-			formData.append('file_type', fileType);
+			formData.append('extension', fileType);
 			formData.append('orden', (max + 1).toString());
 
 			this.habilidadService.createHabilidad(this.persona.id!, formData).subscribe({
@@ -141,6 +159,7 @@ export class AddEditHabilidadComponent implements OnInit {
 					this.persona.habilidades.push(data);
 					this.closeModal();
 					this.toastr.success('Habilidad agregada correctamente');
+					this.modalService.$modalPersonaData.emit(this.persona);
 				},
 				error: (e) => {
 					//console.log(e)

@@ -8,8 +8,11 @@ import { ProyectoModel } from '../models/Proyecto';
 @Injectable({
 	providedIn: 'root'
 })
+
 export class ModalService {
+
 	constructor() { }
+
 	$modalPersona = new EventEmitter<any>();
 	$modalPersonaData = new EventEmitter<PersonaModel>();
 	$modalPersonaProfilePhoto = new EventEmitter<string>();

@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AddEditPersonaComponent implements OnInit {
 
     @Input() userLoggedIn: boolean = false;
-    @Input() persona: PersonaModel = new PersonaModel();
+    persona: PersonaModel = new PersonaModel();
     showPersonaModal: boolean = false;
     showBody: boolean = false;
     loadingState: boolean = false;
@@ -35,28 +35,32 @@ export class AddEditPersonaComponent implements OnInit {
      }
 
     ngOnInit(): void {
-        this.modalService.$modalPersona.subscribe(value => {
-            if (value == true) {
-                this.form.reset();
-                
-                this.form.patchValue({
-                    nombre: this.persona.nombre,
-                    apellido: this.persona.apellido,
-                    descripcion: this.persona.descripcion,
-                    sobre_mi: this.persona.sobre_mi
-                });
-                
-                this.showPersonaModal = value;
-                setTimeout(() => {
-                    this.showBody = value;
-                }, 5);
-            } else {
-                this.showBody = value;
-                setTimeout(() => {
+        this.modalService.$modalPersonaData.subscribe(value => {
+			this.persona = value;
+            
+            this.modalService.$modalPersona.subscribe(value => {
+                if (value == true) {
+                    this.form.reset();
+                    
+                    this.form.patchValue({
+                        nombre: this.persona.nombre,
+                        apellido: this.persona.apellido,
+                        descripcion: this.persona.descripcion,
+                        sobre_mi: this.persona.sobre_mi
+                    });
+                    
                     this.showPersonaModal = value;
-                }, 1400);
-            }
-        });
+                    setTimeout(() => {
+                        this.showBody = value;
+                    }, 5);
+                } else {
+                    this.showBody = value;
+                    setTimeout(() => {
+                        this.showPersonaModal = value;
+                    }, 1400);
+                }
+            });
+		});
     }
 
     onSubmit() :void {
@@ -76,6 +80,7 @@ export class AddEditPersonaComponent implements OnInit {
             next: data => {
                 this.closeModal();
                 this.toastr.success('Persona acualizada correctamente');
+                this.modalService.$modalPersonaData.emit(this.persona);
             },
             error: e => {
                 //console.log(e);
